@@ -32,7 +32,6 @@ d3.csv("https://raw.githubusercontent.com/shahanshahidnawaz/shahanshahidnawaz.gi
 
   // Now I can use this dataset:
   function(data) {
-
     // Add X axis --> it is a date format
     const x = d3.scaleTime()
       .domain(d3.extent(data, function(d) { return d.date; }))
@@ -60,6 +59,19 @@ d3.csv("https://raw.githubusercontent.com/shahanshahidnawaz/shahanshahidnawaz.gi
         .x(function(d) { return x(d.date) })
         .y(function(d) { return y(d.value) })
         )
+      .call(transition);
+  })
+    //code for line animation borrowed from Pablo Gutierrez (https://observablehq.com/@blosky/animated-line-chart)
+    function transition(path) {
+        path.transition()
+            .duration(2000)
+            .attrTween("stroke-dasharray", tweenDash)
+            .on("end", () => { d3.select('.temperature-line').call(transition); });
+    }
 
-})
+    function tweenDash() {
+        const l = this.getTotalLength(),
+              i = d3.interpolateString("0," + l, l + "," + l);
+        return function(t) { return i(t) };
+    }
 </script>
