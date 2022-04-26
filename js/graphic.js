@@ -215,17 +215,17 @@ function render(){
     .y(d => _graph1_y(d.change));
 
   function graph1_clearItems() {
-      var chart = graph1Svg.selectAll('.chart');
-      chart.selectAll(".timeseries")
-        .transition()
-        .duration(1000)
-        .style("opacity", 0)
-        .remove();
-      chart.selectAll(".dataPoint")
-        .transition()
-        .duration(1000)
-        .style("opacity", 0)
-        .remove();
+    var chart = graph1Svg.selectAll('.chart');
+    chart.selectAll(".timeseries")
+      .transition()
+      .duration(1000)
+      .style("opacity", 0)
+      .remove();
+    chart.selectAll(".dataPoint")
+      .transition()
+      .duration(1000)
+      .style("opacity", 0)
+      .remove();
   }
 
   var graph1Steps = [
@@ -323,6 +323,289 @@ function render(){
      graphFunctions[selectedGraphIndex](graph2Svg,_graph2_x,_graph2_y,_graph2_line_generator,true);
    });
 
+  // Graph 4
+  var graph4_width = d3.select(' #container-4 .graph').node().offsetWidth;
+  var graph4_height = (d3.select(' #container-4 .graph').node().offsetHeight);
+  var graph4_verticalSize = graph4_height - margin * 2;
+  var graph4_horizontalSize = graph4_width - margin * 2;
+
+  var graph4Svg = d3.select('#container-4 .graph').html('')
+    .append('svg')
+      .attrs({width: graph4_width, height: graph4_height});
+
+  //constrants|
+  const duration = 600;
+  const opacityHidden = 0;
+  const opacityVisible = 1;
+  
+  // helpers
+  function circleConst(group,idNum,r,fill,opacity) {
+    group.append("circle")
+      .classed("graph4_circle",true)
+      .attr("id", "circle"+idNum)
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", r)
+      .style("fill", fill)
+      .attr("opacity", opacity);
+  }
+  function labelConst(group,idNum,text,fontSize,opacity) {
+    group.append("text")
+      .classed("graph4_label",true)
+      .attr("id", "label"+idNum)
+      .attr("x", 0)
+      .attr("y", "2%")
+      .attr("font-size", fontSize)
+      .attr("font-family", "Arial")
+      .style("text-anchor", "middle")
+      .attr("font-weight",800)
+      .attr("fill","white")
+      .text(text)
+      .attr("opacity", opacity);
+  } 
+  function textConst(group,idNum,text,opacity) {
+    group.append("text")
+      .classed("graph4_text",true)
+      .attr("id", "text"+idNum)
+      .attr("x", 0)
+      .attr("y", "10%")
+      .attr("fill", "darkgrey")
+      .attr("font-size", 13)
+      .attr("font-family", "Arial")
+      .style("text-anchor", "middle")
+      .text(text)
+      .attr("opacity", opacity)
+      .attr("font-weight",800);
+  }
+
+ function graph4_clearItems() {
+    var chart = graph4Svg.selectAll('.chart');
+    chart.selectAll(".graph4_group").remove();
+    chart.selectAll(".graph4_circle").remove();
+    chart.selectAll(".graph4_label").remove();
+    chart.selectAll(".graph4_text").remove();
+  }
+
+  function graph4_circle(idNum,x,y,r,fill,label,text,fontSize,opacity) {
+    var chart = graph4Svg.selectAll('.chart');
+    var group = chart.append("g")
+      .attr("id", "graph4_group_"+idNum)
+      .classed("graph4_group", true)
+      .attr("transform", "translate(" + x + "," + y + ")");
+
+    circleConst(group,idNum,r,fill,opacity);
+    labelConst(group,idNum,label,fontSize,opacity);
+    textConst(group,idNum,text,opacity);
+  }
+
+  function circle1(isInitial) {
+    if (isInitial){
+      graph4_circle(1,(graph2_width*0.5),(graph2_height*0.5),20,"darkred","34%","Nurses plan to resign by 2022",15,opacityHidden);
+    } else {
+      graph4_circle(1,(graph2_width*0.5),(graph2_height*0.5),50,"darkred","34%","Nurses plan to resign by 2022",35,opacityVisible);
+    }
+  }
+
+  function circle2(isInitial) {
+    if (isInitial){
+      graph4_circle(2,(graph2_width*0.2),(graph2_height*0.5),20,"grey","44%","Burnout & High Stress",15,opacityHidden);
+    } else {
+      graph4_circle(2,(graph2_width*0.25),(graph2_height*0.25),40,"grey","44%","Burnout & High Stress",30,opacityVisible);
+    }
+  }
+
+  function circle3(isInitial) {
+    if (isInitial){
+      graph4_circle(3,(graph2_width*0.8),(graph2_height*0.5),20,"grey","27%","Benefits & Pay",15,opacityHidden);
+    } else {
+      graph4_circle(3,(graph2_width*0.75),(graph2_height*0.25),40,"grey","27%","Benefits & Pay",30,opacityVisible);
+    }
+  }
+
+  function circle4(isInitial) {
+    if (isInitial){
+      graph4_circle(4,(graph2_width*0.1),(graph2_height*0.8),20,"grey","66%","Not appreciated by community",15,opacityHidden);
+    } else {
+      graph4_circle(4,(graph2_width*0.1),(graph2_height*0.5),30,"grey","66%","Not appreciated by community",20,opacityVisible);
+    }
+  }
+
+  function circle5(isInitial) {
+    if (isInitial){
+      graph4_circle(5,(graph2_width*0.1),(graph2_height*0.8),20,"grey","64%","Mental & Physical Abuse",15,opacityHidden);
+    } else {
+      graph4_circle(5,(graph2_width*0.2),(graph2_height*0.7),30,"grey","64%","Mental & Physical Abuse",20,opacityVisible);
+    }
+  }
+
+  function circle6(isInitial) {
+    if (isInitial){
+      graph4_circle(6,(graph2_width*0.2),(graph2_height*0.9),20,"grey","32%","Workplace Discrimination/Racism",15,opacityHidden);
+    } else {
+      graph4_circle(6,(graph2_width*0.3),(graph2_height*0.9),30,"grey","32%","Workplace Discrimination/Racism",20,opacityVisible);
+    }
+  }
+
+  function circle7(isInitial) {
+    if (isInitial){
+      graph4_circle(7,(graph2_width*0.9),(graph2_height*0.8),20,"grey","58%","Want to move for a higher pay",15,opacityHidden);
+    } else {
+      graph4_circle(7,(graph2_width*0.9),(graph2_height*0.5),30,"grey","58%","Want to move for a higher pay",20,opacityVisible);
+    }
+  }
+
+  function circle8(isInitial) {
+    if (isInitial){
+      graph4_circle(8,(graph2_width*0.9),(graph2_height*0.8),20,"grey","31%","Want to move for an improved schedule",15,opacityHidden);
+    } else {
+      graph4_circle(8,(graph2_width*0.8),(graph2_height*0.7),30,"grey","31%","Want to move for an improved schedule",20,opacityVisible);
+    }
+  }
+
+  function circle9(isInitial) {
+    if (isInitial){
+      graph4_circle(9,(graph2_width*0.8),(graph2_height*0.9),20,"grey","31%","Want to move for better career opportunities",15,opacityHidden);
+    } else {
+      graph4_circle(9,(graph2_width*0.7),(graph2_height*0.9),30,"grey","31%","Want to move for better career opportunities",20,opacityVisible);
+    }
+  }
+
+  function transitionsFourToNine(idNum,xTranslate,yTranslate){
+    d3.select("#circle"+idNum).transition()
+        .duration(duration)
+        .attr("opacity", opacityVisible)
+      .transition() 
+        .duration(duration)         
+        .attr("r", 30);
+    d3.select("#label"+idNum).transition()
+        .duration(duration)
+        .attr("opacity", opacityVisible)
+      .transition()
+        .duration(duration)
+        .attr("font-size", 20);
+    d3.select("#text"+idNum).transition()
+        .delay(duration)
+        .duration(duration)
+        .attr("opacity", opacityVisible);
+    d3.select("#graph4_group_"+idNum).transition()
+        .delay(duration)
+        .attr("transform", "translate(" + (graph2_width*xTranslate) + "," + (graph2_height*yTranslate) + ")");
+  }
+
+  var graph4Steps = [
+    function() {
+      graph4_clearItems();
+      circle1(true);
+
+      //transition circle 1
+      d3.select("#circle1").transition() 
+        .duration(duration)         
+        .attr("r", 50)
+        .attr("opacity", opacityVisible);
+      d3.select("#label1").transition()
+        .duration(duration)
+        .attr("y", "2%")
+        .attr("font-size", 35)
+        .attr("opacity", opacityVisible);
+      d3.select("#text1").transition()
+        .duration(duration)
+        .attr("opacity", opacityVisible);
+      d3.select("#graph4_group_1").transition()
+          .delay(duration)
+          .attr("transform", "translate(" + (graph2_width*0.5) + "," + (graph2_height*0.5) + ")");
+    },
+
+    function() {
+      graph4_clearItems();
+      circle1(false);
+      circle2(true);
+      circle3(true);
+
+      //transitions circle 2
+      d3.select("#circle2").transition()
+          .duration(duration)
+          .attr("opacity", opacityVisible)
+        .transition() 
+          .duration(duration)         
+          .attr("r", 40);
+      d3.select("#label2").transition()
+          .duration(duration)
+          .attr("opacity", opacityVisible)
+        .transition()
+          .duration(duration)
+          .attr("font-size", 30);
+      d3.select("#text2").transition()
+          .delay(duration)
+          .duration(duration)
+          .attr("opacity", opacityVisible);
+      d3.select("#graph4_group_2").transition()
+          .delay(duration)
+          .attr("transform", "translate(" + (graph2_width*0.25) + "," + (graph2_height*0.25) + ")");
+
+      //transitions circle 3
+      d3.select("#circle3").transition()
+          .duration(duration)
+          .attr("opacity", opacityVisible)
+        .transition() 
+          .duration(duration)         
+          .attr("r", 40);
+      d3.select("#label3").transition()
+          .duration(duration)
+          .attr("opacity", opacityVisible)
+        .transition()
+          .duration(duration)
+          .attr("font-size", 30);
+      d3.select("#text3").transition()
+          .delay(duration)
+          .duration(duration)
+          .attr("opacity", opacityVisible);
+      d3.select("#graph4_group_3").transition()
+          .delay(duration)
+          .attr("transform", "translate(" + (graph2_width*0.75) + "," + (graph2_height*0.25) + ")");
+    },
+
+    function() {
+      graph4_clearItems();
+      circle1(false);
+      circle2(false);
+      circle3(false);
+      circle4(true);
+      circle5(true);
+      circle6(true);
+
+      transitionsFourToNine(4,0.1,0.5);
+      transitionsFourToNine(5,0.2,0.7);
+      transitionsFourToNine(6,0.3,0.9);
+    },
+    function() {
+      graph4_clearItems();
+      circle1(false);
+      circle2(false);
+      circle3(false);
+      circle4(false);
+      circle5(false);
+      circle6(false);
+      circle7(true);
+      circle8(true);
+      circle9(true);
+
+      transitionsFourToNine(7,0.9,0.5);
+      transitionsFourToNine(8,0.8,0.7);
+      transitionsFourToNine(9,0.7,0.9);
+    }
+  ];
+
+  var gs4 = d3.graphScroll()
+    .container(d3.select('#container-4'))
+    .graph(d3.selectAll('#container-4 .graph'))
+    .eventId('uniqueId4')  // namespace for scroll and resize events
+    .sections(d3.selectAll('#container-4 .sections > div'))
+    .on('active', function(i){
+      if(i <= graph4Steps.length-1) {
+        graph4Steps[i]();
+      }        
+    });
+  
   // footer
   d3.select('.footer')
       .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'});
@@ -353,6 +636,11 @@ function render(){
     chart2.append('g')
       .attr("transform", `translate(${margin},0)`)
       .call(d3.axisLeft(_graph2_y));
+
+    var chart4 = graph4Svg.append('g')
+      .classed('chart', true)
+      .attr('transform', 'translate(' + margin + ',0)')
+      .attr('pointer-events', 'all');
   }
 
   setupCharts();
