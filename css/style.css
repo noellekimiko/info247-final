@@ -53,6 +53,11 @@ h1{
     top: 0px;
 }
 
+#container-2 .graph{
+  width: 90%;
+  height: 80vh;
+}
+
 .mono{
   font-family: monospace;
 }

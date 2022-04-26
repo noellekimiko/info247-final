@@ -26,6 +26,20 @@ function render(){
       return function(t) { return i(t) };
   }
 
+  // Define the tooltip
+  var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("text-align", "center")
+    .style("width", "60px")
+    .style("padding", "2px")
+    .style("background", "white")
+    .style("border", "1px solid black")
+    .style("border-radius", "3px")
+    .style("pointer-events", "none");
+
+
   // Reusable employment trends
   var global_change_min = -18;
   var global_change_max = 4;
@@ -48,6 +62,18 @@ function render(){
         .attr("stroke",strokeColor)
         .attr("stroke-width","1.5")
         .attr("stroke-miterlimit","1")
+      .on('mouseover', function (d) {
+            d3.select(this).transition()
+            .attr("stroke-width", 2)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0);
+        })
+      .on('mouseout', function (d) {
+            d3.select(this).transition()
+            .attr("stroke-width", 1)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0);
+        })
       .append("title")
         .text(title);
   }
@@ -77,7 +103,30 @@ function render(){
         .attr('cy', function(d) {return y(d.change)})
         .attr('r',  radius)
         .style('fill', fillColor)
-        .style('opacity', '0.5');
+        .style('opacity', '0.5')
+      .on('mouseover', function (d, i) {
+          d3.select(this).transition()
+            .attr("r", (radius*2));
+          var change = (d.change).toFixed(2).toString() + '%';
+          var date = d3.timeFormat("%b %Y")(d3.timeParse("%Y-%m-%d")(d.date));
+          var tooltipText = date + " " + change;
+
+          var rect = this.getBoundingClientRect();
+          tooltip.transition()    
+            .duration(200)  
+            .style("opacity", .9);  
+          tooltip.html(tooltipText) 
+            .style("left", (rect.left + 5 + window.scrollX) + "px")
+            .style("top", (rect.top + window.scrollY)+ "px"); 
+        })
+      .on('mouseout', function (d, i) {
+          d3.select(this).transition()
+            .attr("stroke-width", 1)
+            .attr("r", radius);
+          tooltip.transition()    
+            .duration(500)    
+            .style("opacity", 0); 
+        });
   }
 
   function _emp_generator(svg,x,y,line_generator,data,pathIdName,title,color,includePoints,includeTransition) {
@@ -142,7 +191,7 @@ function render(){
     .append('svg')
       .attrs({width: graph1_width, height: graph1_height});
 
-  var gs = d3.graphScroll()
+  var gs1 = d3.graphScroll()
       .container(d3.select('#container-1'))
       .graph(d3.selectAll('#container-1 .graph'))
       .eventId('uniqueId1')  // namespace for scroll and resize events
@@ -182,7 +231,7 @@ function render(){
   var graph1Steps = [
     function () {
       graph1_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
+      graph_totalNonFarm_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
     },
 
     function () {
@@ -222,7 +271,7 @@ function render(){
 
   // Graph 2
   var graph2_width = d3.select(' #container-2 .graph').node().offsetWidth;
-  var graph2_height = (d3.select(' #container-2 .graph').node().offsetHeight)*0.90; // size this down to allow space for selector
+  var graph2_height = (d3.select(' #container-2 .graph').node().offsetHeight);
   var graph2_verticalSize = graph2_height - margin * 2;
   var graph2_horizontalSize = graph2_width - margin * 2;
 
@@ -273,7 +322,7 @@ function render(){
      graph2_clearItems();
      graphFunctions[selectedGraphIndex](graph2Svg,_graph2_x,_graph2_y,_graph2_line_generator,true);
    });
-  
+
   // footer
   d3.select('.footer')
       .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'});
