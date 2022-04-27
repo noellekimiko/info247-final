@@ -138,7 +138,7 @@ function render(){
   }
 
   function graph_totalNonFarm_jan_to_apr_2020(svg,x,y,line_generator,includePoints,includeTransition) {
-    _emp_generator(svg,x,y,line_generator,data_totalNonFarm_jan_to_apr_2020,"totalNonFarm_jan_to_apr_2020","Total","grey",includePoints,includeTransition);
+    _emp_generator(svg,x,y,line_generator,data_totalNonFarm_jan_to_apr_2020,"totalNonFarm_jan_to_apr_2020","Total Non-Farm","grey",includePoints,includeTransition);
   }
   
   function graph_totalNonFarm(svg,x,y,line_generator,includePoints,includeTransition) {
