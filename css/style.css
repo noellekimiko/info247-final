@@ -53,6 +53,12 @@ h1{
   top: 0px;
 }
 
+#container-0 .graph video{
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 #container-1 span {
   font-weight: bold;
 }
