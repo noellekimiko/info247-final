@@ -5,10 +5,6 @@ function render(){
 
   var margin = 15;
   var radius = 3;
-  var graph1_width = d3.select(' #container-1 .graph').node().offsetWidth;
-  var graph1_height = d3.select(' #container-1 .graph').node().offsetHeight;
-  var graph1_verticalSize = graph1_height - margin * 2;
-  var graph1_horizontalSize = graph1_width - margin * 2;
   var scaleX = null;
   var scaleY = null;
   
@@ -187,6 +183,10 @@ function render(){
   }
 
   // Graphic 1: Total employment trends
+  var graph1_width = d3.select(' #container-1 .graph').node().offsetWidth;
+  var graph1_height = d3.select(' #container-1 .graph').node().offsetHeight;
+  var graph1_verticalSize = graph1_height - margin * 2;
+  var graph1_horizontalSize = graph1_width - margin * 2;
   var graph1Svg = d3.select('#container-1 .graph').html('')
     .append('svg')
       .attrs({width: graph1_width, height: graph1_height});
@@ -567,6 +567,75 @@ function render(){
       }        
     });
   
+  // Graph 5
+  var data_jobsproj_healthcare = [{"year":"2006","jobs":"15253300"},{"year":"2008","jobs":"16188600"},{"year":"2009","jobs":"16539800"},{"year":"2016","jobs":"19056300"},{"year":"2018","jobs":"19939300"},{"year":"2019","jobs":"20412600"},{"year":"2026","jobs":"23054600"},{"year":"2028","jobs":"23335400"},{"year":"2029","jobs":"23491700"}];
+  var data_jobsproj_all = [{"year":"2006","jobs":"1437174"},{"year":"2008","jobs":"1151898"},{"year":"2009","jobs":"1370560"},{"year":"2016","jobs":"1426075"},{"year":"2018","jobs":"1274724"},{"year":"2019","jobs":"1498067"},{"year":"2026","jobs":"1583244"},{"year":"2028","jobs":"1352409"},{"year":"2029","jobs":"1612747"}];
+  var graph5_width = d3.select(' #container-5 .graph').node().offsetWidth;
+  var graph5_height = d3.select(' #container-5 .graph').node().offsetHeight;
+  var graph5_verticalSize = graph5_height - margin * 2;
+  var graph5_horizontalSize = graph5_width - margin * 2;
+
+  var graph5Svg = d3.select('#container-5 .graph').html('')
+    .append('svg')
+      .attrs({width: graph5_width, height: graph5_height});
+
+  var _graph5_x = d3.scaleTime()
+    .domain(d3.extent(data_jobsproj_healthcare, d=>d3.timeParse("%Y")(d.year)))
+    .range([margin, graph5_horizontalSize]);
+
+  var _graph5_y = d3.scaleLinear()
+    .domain([0,d3.max(data_jobsproj_healthcare, d=>d.jobs)])
+    .range([graph5_verticalSize, margin]);
+
+  var _graph5_line_generator = d3.line()
+    .x(d => _graph5_x(d3.timeParse("%Y")(d.year)))
+    .y(d => _graph5_y(d.jobs));
+
+  function _graph5_path_generator(data,id,title,strokeColor) {
+    var chart = graph5Svg.selectAll('.chart');
+      chart.append('path')
+          .attr("id", id)
+          .classed('timeseries', true)
+          .attr("d",_graph5_line_generator(data))
+          .attr("fill","none")
+          .attr("stroke",strokeColor)
+          .attr("stroke-width","1.5")
+          .attr("stroke-miterlimit","1")
+          .call(transition)
+        .append("title")
+          .text(title);
+  }
+
+  function graph5_jobsproj_all() {
+    _graph5_path_generator(data_jobsproj_all,"graph5_jobsproj_all","All Industries","darkgrey");
+  }
+
+  function graph5_jobsproj_healthcare() {
+    _graph5_path_generator(data_jobsproj_healthcare,"graph5_jobsproj_healthcare","Projected Healthcare","green");
+  }
+  function graph5_clearItems() {
+    var chart = graph5Svg.selectAll('.chart');
+    chart.selectAll(".timeseries").remove();
+  }
+
+  var graph5Steps = [
+    function() {
+      graph5_clearItems();
+      graph5_jobsproj_all();
+      graph5_jobsproj_healthcare();
+    }
+  ];
+  var gs5 = d3.graphScroll()
+      .container(d3.select('#container-5'))
+      .graph(d3.selectAll('#container-5 .graph'))
+      .eventId('uniqueId5')  // namespace for scroll and resize events
+      .sections(d3.selectAll('#container-5 .sections > div'))
+      .on('active', function(i){
+        if(i <= graph5Steps.length-1) {
+          graph5Steps[i]();
+        }        
+      });
+
   // footer
   d3.select('.footer')
       .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'});
@@ -602,6 +671,19 @@ function render(){
       .classed('chart', true)
       .attr('transform', 'translate(' + margin + ',0)')
       .attr('pointer-events', 'all');
+
+    var chart5 = graph5Svg.append('g')
+      .classed('chart', true)
+      .attr('transform', 'translate(' + margin + ',0)')
+      .attr('pointer-events', 'all');
+
+    // Axes
+    chart5.append('g')
+      .attr("transform", `translate(0,${graph5_height - margin*2})`)
+      .call(d3.axisBottom(_graph5_x));
+    chart5.append('g')
+      .attr("transform", `translate(${margin},0)`)
+      .call(d3.axisLeft(_graph5_y).tickFormat(d=>d3.format(".1s")(d)));
   }
 
   setupCharts();
