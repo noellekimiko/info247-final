@@ -56,17 +56,17 @@ function render(){
         .attr("d",line_generator(data))
         .attr("fill","none")
         .attr("stroke",strokeColor)
-        .attr("stroke-width","1.5")
+        .attr("stroke-width",5)
         .attr("stroke-miterlimit","1")
       .on('mouseover', function (d) {
             d3.select(this).transition()
-            .attr("stroke-width", 2)
+            .attr("stroke-width", 5)
             .ease(d3.easeLinear)
             .attr("stroke-dashoffset", 0);
         })
       .on('mouseout', function (d) {
             d3.select(this).transition()
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 5)
             .ease(d3.easeLinear)
             .attr("stroke-dashoffset", 0);
         })
@@ -81,7 +81,7 @@ function render(){
         .attr("d",line_generator(data))
         .attr("fill","none")
         .attr("stroke",strokeColor)
-        .attr("stroke-width","1.5")
+        .attr("stroke-width",5)
         .attr("stroke-miterlimit","1")
         .call(transition)
       .append("title")
@@ -117,7 +117,7 @@ function render(){
         })
       .on('mouseout', function (d, i) {
           d3.select(this).transition()
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 5)
             .attr("r", radius);
           tooltip.transition()    
             .duration(500)    
@@ -370,7 +370,7 @@ function render(){
       .attr("x", 0)
       .attr("y", y)
       .attr("fill", "darkgrey")
-      .attr("font-size", 13)
+      .attr("font-size", 18)
       .attr("font-family", "Arial")
       .style("text-anchor", "middle")
       .text(text)
@@ -599,7 +599,7 @@ function render(){
           .attr("d",_graph5_line_generator(data))
           .attr("fill","none")
           .attr("stroke",strokeColor)
-          .attr("stroke-width","1.5")
+          .attr("stroke-width",5)
           .attr("stroke-miterlimit","1")
           .call(transition)
         .append("title")
