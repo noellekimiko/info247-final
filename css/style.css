@@ -11,14 +11,23 @@
 
 body{
   font-size:  24px;
+  /* font-family: "EB Garamond";*/
   font-family: "EB Garamond";
 }
 
 h1{
   margin: 10px;
-  margin-top:  20px;
+  margin-top: 200px;
   text-align: center;
   font-family: "EB Garamond"; font-style: normal; font-variant: normal; font-weight: 700; line-height: 23px;
+}
+
+h3{
+  margin-top: 50px;
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+  font-family: "EB Garamond"; font-size:  18px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 23px;
 }
 
 .container{
