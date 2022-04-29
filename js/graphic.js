@@ -318,7 +318,7 @@ function render(){
     .append('svg')
       .attrs({width: graph4_width, height: graph4_height});
 
-  //constrants|
+  // constants
   const duration = 600;
   const opacityHidden = 0;
   const opacityVisible = 1;
@@ -369,6 +369,7 @@ function render(){
     chart.selectAll(".graph4_circle").remove();
     chart.selectAll(".graph4_label").remove();
     chart.selectAll(".graph4_text").remove();
+    chart.selectAll(".graph4_img").remove();
   }
 
   function graph4_circle(idNum,x,y,r,fill,labelY,label,textY,text,fontSize,opacity) {
@@ -478,6 +479,15 @@ function render(){
   }
 
   var graph4Steps = [
+    function() {
+      graph4_clearItems();
+      var chart = graph4Svg.selectAll('.chart');
+      chart.append("svg:image")
+        .classed("graph4_img",true)
+        .attr("width", graph4_horizontalSize)
+        .attr("height", "100vh")
+        .attr("xlink:href", "img/graphic4_earnings.png");
+    },
     function() {
       graph4_clearItems();
       circle1(true);
