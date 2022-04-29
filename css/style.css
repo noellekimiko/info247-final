@@ -3,31 +3,18 @@
   padding: 0;
 }
 
-.center-fit {
-  max-width: 100%;
-  max-height: 100vh;
-  margin: auto;
-}
-
 body{
   font-size:  24px;
-  /* font-family: "EB Garamond";*/
   font-family: "EB Garamond";
 }
 
 h1{
   margin: 10px;
-  margin-top: 200px;
   text-align: center;
-  font-family: "EB Garamond"; font-style: normal; font-variant: normal; font-weight: 700; line-height: 23px;
-}
-
-h3{
-  margin-top: 50px;
-  margin-left: 200px;
-  margin-right: 200px;
-  text-align: center;
-  font-family: "EB Garamond"; font-size:  18px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 23px;
+  font-family: "EB Garamond"; 
+  font-style: normal; 
+  font-variant: normal; 
+  font-weight: 700;
 }
 
 .container{
@@ -44,7 +31,7 @@ h3{
 
 .sections > div{
   background-color: #eee;
-  margin: 0 auto 120vh auto;
+  margin: -50vh auto 150vh auto;
   padding: 10px;
   width: 80%;
 }
@@ -65,35 +52,48 @@ h3{
   top: 0px;
 }
 
-#container-0 .graph video{
-  width: 100%;
-  margin-top: auto;
-  margin-bottom: auto;
+#container-1 .header{
+  margin-top: -50vh;
 }
 
-#container-1 span {
+p.subhead{
+  margin-top: 50px;
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+  font-family: "EB Garamond"; 
+  font-size:  18px; 
+  font-style: normal; 
+  font-variant: normal; 
+  font-weight: 700; 
+  line-height: 23px;
+}
+
+#container-1 .graph img {
+  max-width: 100%;
+  max-height: 100vh;
+  margin: auto;
+  display: block;
+}
+
+#container-2 span {
   font-weight: bold;
 }
 
-#container-1 span.healthcare{
+#container-2 span.healthcare{
   color: #008000;
 }
 
-#container-1 span.ambulatory{
+#container-2 span.ambulatory{
   color: #4682b4;
 }
 
-#container-1 span.hospital{
+#container-2 span.hospital{
   color: #ffa500;  
 }
 
-#container-1 span.nursing{
+#container-2 span.nursing{
   color: #fa8072;
-}
-
-#container-2 .graph{
-  width: 90%;
-  height: 80vh;
 }
 
 .mono{
