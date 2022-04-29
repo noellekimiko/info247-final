@@ -76,28 +76,24 @@ p.subhead{
   display: block;
 }
 
-#container-2 span {
+#container-2 span, #container-3 span {
   font-weight: bold;
 }
 
-#container-2 span.healthcare{
+span.healthcare {
   color: #008000;
 }
 
-#container-2 span.ambulatory{
+span.ambulatory{
   color: #4682b4;
 }
 
-#container-2 span.hospital{
+span.hospital{
   color: #ffa500;  
 }
 
-#container-2 span.nursing{
+span.nursing{
   color: #fa8072;
-}
-
-.mono{
-  font-family: monospace;
 }
 
 svg{

@@ -133,7 +133,7 @@ function render(){
     graph_nursing(svg,x,y,line_generator,includePoints,includeTransition);
   }
 
-  // Graphic 1: Total employment trends
+  // Graphic 2: Total employment trends
   var graph2_width = d3.select(' #container-2 .graph').node().offsetWidth;
   var graph2_height = d3.select(' #container-2 .graph').node().offsetHeight;
   var graph2_verticalSize = graph2_height - margin * 4;
@@ -142,10 +142,10 @@ function render(){
     .append('svg')
       .attrs({width: graph2_width, height: graph2_height});
 
-  var gs1 = d3.graphScroll()
+  var gs2 = d3.graphScroll()
       .container(d3.select('#container-2'))
       .graph(d3.selectAll('#container-2 .graph'))
-      .eventId('uniqueId1')  // namespace for scroll and resize events
+      .eventId('uniqueId2')  // namespace for scroll and resize events
       .sections(d3.selectAll('#container-2 .sections > div'))
       .on('active', function(i){
         if(i <= graph2Steps.length-1) {
@@ -219,6 +219,94 @@ function render(){
       graph_nursing(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
     },
   ]
+
+  // Graph 3
+  var graph3_value_max = 3.5;
+  var graph3_date_start = new Date(2020, 0, 1);
+  var graph3_date_end = new Date(2021, 11, 1);
+  var graph3_data_construction = [{"month":"2020-01-01","name":"Construction","value":"0.70263789"},{"month":"2020-02-01","name":"Construction","value":"0.751861042"},{"month":"2020-03-01","name":"Construction","value":"0.576441103"},{"month":"2020-04-01","name":"Construction","value":"0.99047619"},{"month":"2020-05-01","name":"Construction","value":"0.387895461"},{"month":"2020-06-01","name":"Construction","value":"0.4609375"},{"month":"2020-07-01","name":"Construction","value":"0.75826972"},{"month":"2020-08-01","name":"Construction","value":"0.62628866"},{"month":"2020-09-01","name":"Construction","value":"0.596401028"},{"month":"2020-10-01","name":"Construction","value":"0.639896373"},{"month":"2020-11-01","name":"Construction","value":"0.689655172"},{"month":"2020-12-01","name":"Construction","value":"0.655256724"},{"month":"2021-01-01","name":"Construction","value":"0.851851852"},{"month":"2021-02-01","name":"Construction","value":"0.672774869"},{"month":"2021-03-01","name":"Construction","value":"0.756756757"},{"month":"2021-04-01","name":"Construction","value":"0.98502994"},{"month":"2021-05-01","name":"Construction","value":"1.003257329"},{"month":"2021-06-01","name":"Construction","value":"0.919770774"},{"month":"2021-07-01","name":"Construction","value":"0.923287671"},{"month":"2021-08-01","name":"Construction","value":"0.97574124"},{"month":"2021-09-01","name":"Construction","value":"1.005780347"},{"month":"2021-10-01","name":"Construction","value":"1.082872928"},{"month":"2021-11-01","name":"Construction","value":"0.855140187"},{"month":"2021-12-01","name":"Construction","value":"0.994459834"}];
+  var graph3_data_education = [{"month":"2020-01-01","name":"Education and Health Services","value":"1.67"},{"month":"2020-02-01","name":"Education and Health Services","value":"1.616368286"},{"month":"2020-03-01","name":"Education and Health Services","value":"1.801515152"},{"month":"2020-04-01","name":"Education and Health Services","value":"1.790566038"},{"month":"2020-05-01","name":"Education and Health Services","value":"0.834605598"},{"month":"2020-06-01","name":"Education and Health Services","value":"1.169329073"},{"month":"2020-07-01","name":"Education and Health Services","value":"1.404205607"},{"month":"2020-08-01","name":"Education and Health Services","value":"1.675070028"},{"month":"2020-09-01","name":"Education and Health Services","value":"1.696551724"},{"month":"2020-10-01","name":"Education and Health Services","value":"1.819034853"},{"month":"2020-11-01","name":"Education and Health Services","value":"1.835180055"},{"month":"2020-12-01","name":"Education and Health Services","value":"1.785413745"},{"month":"2021-01-01","name":"Education and Health Services","value":"2.016369048"},{"month":"2021-02-01","name":"Education and Health Services","value":"2.185135135"},{"month":"2021-03-01","name":"Education and Health Services","value":"1.964613368"},{"month":"2021-04-01","name":"Education and Health Services","value":"2.011734029"},{"month":"2021-05-01","name":"Education and Health Services","value":"2.232984293"},{"month":"2021-06-01","name":"Education and Health Services","value":"2.221935484"},{"month":"2021-07-01","name":"Education and Health Services","value":"2.475195822"},{"month":"2021-08-01","name":"Education and Health Services","value":"2.286259542"},{"month":"2021-09-01","name":"Education and Health Services","value":"2.3757503"},{"month":"2021-10-01","name":"Education and Health Services","value":"2.53874092"},{"month":"2021-11-01","name":"Education and Health Services","value":"2.450980392"},{"month":"2021-12-01","name":"Education and Health Services","value":"2.585106383"}];
+  var graph3_data_financial = [{"month":"2020-01-01","name":"Financial Activities","value":"1.949541284"},{"month":"2020-02-01","name":"Financial Activities","value":"1.723140496"},{"month":"2020-03-01","name":"Financial Activities","value":"1.502164502"},{"month":"2020-04-01","name":"Financial Activities","value":"1.698113208"},{"month":"2020-05-01","name":"Financial Activities","value":"1.5"},{"month":"2020-06-01","name":"Financial Activities","value":"1.703517588"},{"month":"2020-07-01","name":"Financial Activities","value":"1.207692308"},{"month":"2020-08-01","name":"Financial Activities","value":"1.281385281"},{"month":"2020-09-01","name":"Financial Activities","value":"1.253012048"},{"month":"2020-10-01","name":"Financial Activities","value":"1.297959184"},{"month":"2020-11-01","name":"Financial Activities","value":"1.338095238"},{"month":"2020-12-01","name":"Financial Activities","value":"1.439613527"},{"month":"2021-01-01","name":"Financial Activities","value":"1.346341463"},{"month":"2021-02-01","name":"Financial Activities","value":"1.557788945"},{"month":"2021-03-01","name":"Financial Activities","value":"1.634146341"},{"month":"2021-04-01","name":"Financial Activities","value":"1.990697674"},{"month":"2021-05-01","name":"Financial Activities","value":"1.922330097"},{"month":"2021-06-01","name":"Financial Activities","value":"1.715686275"},{"month":"2021-07-01","name":"Financial Activities","value":"2.186234818"},{"month":"2021-08-01","name":"Financial Activities","value":"2.262135922"},{"month":"2021-09-01","name":"Financial Activities","value":"1.510344828"},{"month":"2021-10-01","name":"Financial Activities","value":"2.041284404"},{"month":"2021-11-01","name":"Financial Activities","value":"2.111587983"},{"month":"2021-12-01","name":"Financial Activities","value":"2.052401747"}];
+  var graph3_data_healthcare = [{"month":"2020-01-01","name":"Health Care and Social Assistance","value":"1.760115607"},{"month":"2020-02-01","name":"Health Care and Social Assistance","value":"1.664233577"},{"month":"2020-03-01","name":"Health Care and Social Assistance","value":"1.904761905"},{"month":"2020-04-01","name":"Health Care and Social Assistance","value":"1.864035088"},{"month":"2020-05-01","name":"Health Care and Social Assistance","value":"0.832869081"},{"month":"2020-06-01","name":"Health Care and Social Assistance","value":"1.226161369"},{"month":"2020-07-01","name":"Health Care and Social Assistance","value":"1.478723404"},{"month":"2020-08-01","name":"Health Care and Social Assistance","value":"1.760517799"},{"month":"2020-09-01","name":"Health Care and Social Assistance","value":"1.726851852"},{"month":"2020-10-01","name":"Health Care and Social Assistance","value":"1.89280245"},{"month":"2020-11-01","name":"Health Care and Social Assistance","value":"1.945773525"},{"month":"2020-12-01","name":"Health Care and Social Assistance","value":"1.860719875"},{"month":"2021-01-01","name":"Health Care and Social Assistance","value":"2.201096892"},{"month":"2021-02-01","name":"Health Care and Social Assistance","value":"2.311248074"},{"month":"2021-03-01","name":"Health Care and Social Assistance","value":"2.072617247"},{"month":"2021-04-01","name":"Health Care and Social Assistance","value":"2.080597015"},{"month":"2021-05-01","name":"Health Care and Social Assistance","value":"2.293154762"},{"month":"2021-06-01","name":"Health Care and Social Assistance","value":"2.3125"},{"month":"2021-07-01","name":"Health Care and Social Assistance","value":"2.585585586"},{"month":"2021-08-01","name":"Health Care and Social Assistance","value":"2.412371134"},{"month":"2021-09-01","name":"Health Care and Social Assistance","value":"2.456521739"},{"month":"2021-10-01","name":"Health Care and Social Assistance","value":"2.690677966"},{"month":"2021-11-01","name":"Health Care and Social Assistance","value":"2.53298153"},{"month":"2021-12-01","name":"Health Care and Social Assistance","value":"2.647849462"}];
+  var graph3_data_information = [{"month":"2020-01-01","name":"Information","value":"1.739726027"},{"month":"2020-02-01","name":"Information","value":"1.453608247"},{"month":"2020-03-01","name":"Information","value":"1.680555556"},{"month":"2020-04-01","name":"Information","value":"3.128205128"},{"month":"2020-05-01","name":"Information","value":"1.318181818"},{"month":"2020-06-01","name":"Information","value":"1.754385965"},{"month":"2020-07-01","name":"Information","value":"1.023529412"},{"month":"2020-08-01","name":"Information","value":"0.944444444"},{"month":"2020-09-01","name":"Information","value":"1.099009901"},{"month":"2020-10-01","name":"Information","value":"1.024793388"},{"month":"2020-11-01","name":"Information","value":"1.155555556"},{"month":"2020-12-01","name":"Information","value":"1.414634146"},{"month":"2021-01-01","name":"Information","value":"1.75"},{"month":"2021-02-01","name":"Information","value":"1.144329897"},{"month":"2021-03-01","name":"Information","value":"1.088235294"},{"month":"2021-04-01","name":"Information","value":"1.125"},{"month":"2021-05-01","name":"Information","value":"1.371428571"},{"month":"2021-06-01","name":"Information","value":"1.372727273"},{"month":"2021-07-01","name":"Information","value":"1.70754717"},{"month":"2021-08-01","name":"Information","value":"1.56779661"},{"month":"2021-09-01","name":"Information","value":"1.495652174"},{"month":"2021-10-01","name":"Information","value":"1.504201681"},{"month":"2021-11-01","name":"Information","value":"1.692982456"},{"month":"2021-12-01","name":"Information","value":"2.09009009"}];
+  var graph3_data_leisure = [{"month":"2020-01-01","name":"Leisure and Hospitality","value":"0.83245614"},{"month":"2020-02-01","name":"Leisure and Hospitality","value":"0.868940754"},{"month":"2020-03-01","name":"Leisure and Hospitality","value":"0.951255539"},{"month":"2020-04-01","name":"Leisure and Hospitality","value":"0.888888889"},{"month":"2020-05-01","name":"Leisure and Hospitality","value":"0.373376623"},{"month":"2020-06-01","name":"Leisure and Hospitality","value":"0.4345"},{"month":"2020-07-01","name":"Leisure and Hospitality","value":"0.605805959"},{"month":"2020-08-01","name":"Leisure and Hospitality","value":"0.769628099"},{"month":"2020-09-01","name":"Leisure and Hospitality","value":"0.744053283"},{"month":"2020-10-01","name":"Leisure and Hospitality","value":"0.734497817"},{"month":"2020-11-01","name":"Leisure and Hospitality","value":"0.783410138"},{"month":"2020-12-01","name":"Leisure and Hospitality","value":"0.928571429"},{"month":"2021-01-01","name":"Leisure and Hospitality","value":"0.782128514"},{"month":"2021-02-01","name":"Leisure and Hospitality","value":"0.861135371"},{"month":"2021-03-01","name":"Leisure and Hospitality","value":"0.969378828"},{"month":"2021-04-01","name":"Leisure and Hospitality","value":"0.980408163"},{"month":"2021-05-01","name":"Leisure and Hospitality","value":"1.086956522"},{"month":"2021-06-01","name":"Leisure and Hospitality","value":"1.2143446"},{"month":"2021-07-01","name":"Leisure and Hospitality","value":"1.29089444"},{"month":"2021-08-01","name":"Leisure and Hospitality","value":"1.392220421"},{"month":"2021-09-01","name":"Leisure and Hospitality","value":"1.29352397"},{"month":"2021-10-01","name":"Leisure and Hospitality","value":"1.384223919"},{"month":"2021-11-01","name":"Leisure and Hospitality","value":"1.370065789"},{"month":"2021-12-01","name":"Leisure and Hospitality","value":"1.669463087"}];
+  var graph3_data_manufacturing = [{"month":"2020-01-01","name":"Manufacturing","value":"1.26625387"},{"month":"2020-02-01","name":"Manufacturing","value":"1.106442577"},{"month":"2020-03-01","name":"Manufacturing","value":"0.977917981"},{"month":"2020-04-01","name":"Manufacturing","value":"0.844444444"},{"month":"2020-05-01","name":"Manufacturing","value":"0.497645212"},{"month":"2020-06-01","name":"Manufacturing","value":"0.709543568"},{"month":"2020-07-01","name":"Manufacturing","value":"1.2"},{"month":"2020-08-01","name":"Manufacturing","value":"1.187341772"},{"month":"2020-09-01","name":"Manufacturing","value":"1.255936675"},{"month":"2020-10-01","name":"Manufacturing","value":"1.366925065"},{"month":"2020-11-01","name":"Manufacturing","value":"1.17603912"},{"month":"2020-12-01","name":"Manufacturing","value":"1.054176072"},{"month":"2021-01-01","name":"Manufacturing","value":"1.478753541"},{"month":"2021-02-01","name":"Manufacturing","value":"1.377088305"},{"month":"2021-03-01","name":"Manufacturing","value":"1.672605791"},{"month":"2021-04-01","name":"Manufacturing","value":"2.195431472"},{"month":"2021-05-01","name":"Manufacturing","value":"2.153284672"},{"month":"2021-06-01","name":"Manufacturing","value":"2.020361991"},{"month":"2021-07-01","name":"Manufacturing","value":"2.010660981"},{"month":"2021-08-01","name":"Manufacturing","value":"1.885529158"},{"month":"2021-09-01","name":"Manufacturing","value":"2.00212766"},{"month":"2021-10-01","name":"Manufacturing","value":"1.918918919"},{"month":"2021-11-01","name":"Manufacturing","value":"1.733333333"},{"month":"2021-12-01","name":"Manufacturing","value":"1.63238512"}];
+  var graph3_data_mining = [{"month":"2020-01-01","name":"Mining and Logging","value":"1.125"},{"month":"2020-02-01","name":"Mining and Logging","value":"1.090909091"},{"month":"2020-03-01","name":"Mining and Logging","value":"0.722222222"},{"month":"2020-04-01","name":"Mining and Logging","value":"0.769230769"},{"month":"2020-05-01","name":"Mining and Logging","value":"0.625"},{"month":"2020-06-01","name":"Mining and Logging","value":"1.777777778"},{"month":"2020-07-01","name":"Mining and Logging","value":"0.526315789"},{"month":"2020-08-01","name":"Mining and Logging","value":"0.714285714"},{"month":"2020-09-01","name":"Mining and Logging","value":"0.666666667"},{"month":"2020-10-01","name":"Mining and Logging","value":"1.066666667"},{"month":"2020-11-01","name":"Mining and Logging","value":"0.75"},{"month":"2020-12-01","name":"Mining and Logging","value":"0.85"},{"month":"2021-01-01","name":"Mining and Logging","value":"1.428571429"},{"month":"2021-02-01","name":"Mining and Logging","value":"1.25"},{"month":"2021-03-01","name":"Mining and Logging","value":"1.041666667"},{"month":"2021-04-01","name":"Mining and Logging","value":"1.1"},{"month":"2021-05-01","name":"Mining and Logging","value":"1.227272727"},{"month":"2021-06-01","name":"Mining and Logging","value":"1.136363636"},{"month":"2021-07-01","name":"Mining and Logging","value":"1.7"},{"month":"2021-08-01","name":"Mining and Logging","value":"1.571428571"},{"month":"2021-09-01","name":"Mining and Logging","value":"1.8125"},{"month":"2021-10-01","name":"Mining and Logging","value":"1.380952381"},{"month":"2021-11-01","name":"Mining and Logging","value":"1.842105263"},{"month":"2021-12-01","name":"Mining and Logging","value":"1.7"}];
+  var graph3_data_services = [{"month":"2020-01-01","name":"Other Services","value":"1.155172414"},{"month":"2020-02-01","name":"Other Services","value":"0.907079646"},{"month":"2020-03-01","name":"Other Services","value":"1.034246575"},{"month":"2020-04-01","name":"Other Services","value":"0.906040268"},{"month":"2020-05-01","name":"Other Services","value":"0.30318258"},{"month":"2020-06-01","name":"Other Services","value":"0.687664042"},{"month":"2020-07-01","name":"Other Services","value":"1.373737374"},{"month":"2020-08-01","name":"Other Services","value":"1.0456621"},{"month":"2020-09-01","name":"Other Services","value":"0.971544715"},{"month":"2020-10-01","name":"Other Services","value":"1.004166667"},{"month":"2020-11-01","name":"Other Services","value":"1.033175355"},{"month":"2020-12-01","name":"Other Services","value":"1.153409091"},{"month":"2021-01-01","name":"Other Services","value":"1.135514019"},{"month":"2021-02-01","name":"Other Services","value":"1.151639344"},{"month":"2021-03-01","name":"Other Services","value":"1.100456621"},{"month":"2021-04-01","name":"Other Services","value":"1.553648069"},{"month":"2021-05-01","name":"Other Services","value":"2.108597285"},{"month":"2021-06-01","name":"Other Services","value":"1.619834711"},{"month":"2021-07-01","name":"Other Services","value":"1.76171875"},{"month":"2021-08-01","name":"Other Services","value":"1.99543379"},{"month":"2021-09-01","name":"Other Services","value":"1.742307692"},{"month":"2021-10-01","name":"Other Services","value":"1.927350427"},{"month":"2021-11-01","name":"Other Services","value":"1.660305344"},{"month":"2021-12-01","name":"Other Services","value":"1.4140625"}];
+  var graph3_data_prof_services = [{"month":"2020-01-01","name":"Professional and Business Services","value":"1.098106713"},{"month":"2020-02-01","name":"Professional and Business Services","value":"1.154537287"},{"month":"2020-03-01","name":"Professional and Business Services","value":"0.965638767"},{"month":"2020-04-01","name":"Professional and Business Services","value":"0.979118329"},{"month":"2020-05-01","name":"Professional and Business Services","value":"0.914744233"},{"month":"2020-06-01","name":"Professional and Business Services","value":"0.869118905"},{"month":"2020-07-01","name":"Professional and Business Services","value":"1.025022341"},{"month":"2020-08-01","name":"Professional and Business Services","value":"0.993960311"},{"month":"2020-09-01","name":"Professional and Business Services","value":"1.086236934"},{"month":"2020-10-01","name":"Professional and Business Services","value":"1.127845884"},{"month":"2020-11-01","name":"Professional and Business Services","value":"1.113934426"},{"month":"2020-12-01","name":"Professional and Business Services","value":"1.291772689"},{"month":"2021-01-01","name":"Professional and Business Services","value":"1.226351351"},{"month":"2021-02-01","name":"Professional and Business Services","value":"1.2200489"},{"month":"2021-03-01","name":"Professional and Business Services","value":"1.308072488"},{"month":"2021-04-01","name":"Professional and Business Services","value":"1.437229437"},{"month":"2021-05-01","name":"Professional and Business Services","value":"1.493955095"},{"month":"2021-06-01","name":"Professional and Business Services","value":"1.462171053"},{"month":"2021-07-01","name":"Professional and Business Services","value":"1.460377358"},{"month":"2021-08-01","name":"Professional and Business Services","value":"1.571428571"},{"month":"2021-09-01","name":"Professional and Business Services","value":"1.453968254"},{"month":"2021-10-01","name":"Professional and Business Services","value":"1.559541985"},{"month":"2021-11-01","name":"Professional and Business Services","value":"1.47027027"},{"month":"2021-12-01","name":"Professional and Business Services","value":"1.667491749"}];
+  var graph3_data_trade = [{"month":"2020-01-01","name":"Trade, Transportation, and Utilities","value":"1.003257329"},{"month":"2020-02-01","name":"Trade, Transportation, and Utilities","value":"0.950558214"},{"month":"2020-03-01","name":"Trade, Transportation, and Utilities","value":"0.945762712"},{"month":"2020-04-01","name":"Trade, Transportation, and Utilities","value":"0.806890299"},{"month":"2020-05-01","name":"Trade, Transportation, and Utilities","value":"0.651769088"},{"month":"2020-06-01","name":"Trade, Transportation, and Utilities","value":"0.770965469"},{"month":"2020-07-01","name":"Trade, Transportation, and Utilities","value":"0.981161695"},{"month":"2020-08-01","name":"Trade, Transportation, and Utilities","value":"0.950120676"},{"month":"2020-09-01","name":"Trade, Transportation, and Utilities","value":"0.894819466"},{"month":"2020-10-01","name":"Trade, Transportation, and Utilities","value":"0.888971684"},{"month":"2020-11-01","name":"Trade, Transportation, and Utilities","value":"1.020729685"},{"month":"2020-12-01","name":"Trade, Transportation, and Utilities","value":"1.033653846"},{"month":"2021-01-01","name":"Trade, Transportation, and Utilities","value":"1.100398406"},{"month":"2021-02-01","name":"Trade, Transportation, and Utilities","value":"1.19658814"},{"month":"2021-03-01","name":"Trade, Transportation, and Utilities","value":"1.312598425"},{"month":"2021-04-01","name":"Trade, Transportation, and Utilities","value":"1.35446906"},{"month":"2021-05-01","name":"Trade, Transportation, and Utilities","value":"1.297692308"},{"month":"2021-06-01","name":"Trade, Transportation, and Utilities","value":"1.285714286"},{"month":"2021-07-01","name":"Trade, Transportation, and Utilities","value":"1.406226835"},{"month":"2021-08-01","name":"Trade, Transportation, and Utilities","value":"1.460202605"},{"month":"2021-09-01","name":"Trade, Transportation, and Utilities","value":"1.419213974"},{"month":"2021-10-01","name":"Trade, Transportation, and Utilities","value":"1.453471196"},{"month":"2021-11-01","name":"Trade, Transportation, and Utilities","value":"1.36059744"},{"month":"2021-12-01","name":"Trade, Transportation, and Utilities","value":"1.410312273"}];
+  var graph3_width = d3.select(' #container-3 .graph').node().offsetWidth;
+  var graph3_height = d3.select(' #container-3 .graph').node().offsetHeight;
+  var graph3_verticalSize = graph3_height - margin * 4;
+  var graph3_horizontalSize = graph3_width - (margin * 8);
+  var graph3Svg = d3.select('#container-3 .graph').html('')
+    .append('svg')
+      .attrs({width: graph3_width, height: graph3_height});
+
+  var _graph3_x = d3.scaleTime()
+    .domain([graph3_date_start,graph3_date_end])
+    .range([margin, graph3_horizontalSize]);
+
+  var _graph3_y = d3.scaleLinear()
+    .domain([0, graph3_value_max])
+    .range([graph3_verticalSize, margin]);
+
+  var _graph3_line_generator = d3.line()
+    .x(d => _graph3_x(d3.timeParse("%Y-%m-%d")(d.month)))
+    .y(d => _graph3_y(d.value));
+
+  function graph3_clearItems() {
+    var chart = graph3Svg.selectAll('.chart');
+    chart.selectAll(".openings-hires")
+      .transition()
+      .duration(1000)
+      .style("opacity", 0)
+      .remove();
+  }
+
+  function graph3_path_generator(data,title,strokeColor){
+    var chart = graph3Svg.selectAll('.chart');
+    chart.append("path")
+      .classed('openings-hires', true)
+      .attr("d", _graph3_line_generator(data))
+      .attr("fill", "none")
+      .attr("stroke", strokeColor)
+      .attr("stroke-width", 5)
+      .attr("stroke-miterlimit","1")
+      .append("title")
+        .text(title);
+  }
+
+  var graph3Steps = [
+    function() {
+      graph3_clearItems();
+    },
+    function () {
+      graph3_clearItems();
+      graph3_path_generator(graph3_data_construction,"Construction","grey");
+      graph3_path_generator(graph3_data_education,"Education and Health Services","grey");
+      graph3_path_generator(graph3_data_financial,"Financial Activities","grey");
+      graph3_path_generator(graph3_data_healthcare,"Health Care and Social Assistance","#008000");
+      graph3_path_generator(graph3_data_information,"Information","grey");
+      graph3_path_generator(graph3_data_leisure,"Leisure and Hospitality","grey");
+      graph3_path_generator(graph3_data_manufacturing,"Manufacturing","grey");
+      graph3_path_generator(graph3_data_mining,"Mining and Logging","grey");
+      graph3_path_generator(graph3_data_services,"Other Services","grey");
+      graph3_path_generator(graph3_data_prof_services,"Professional and Business Services","grey");
+      graph3_path_generator(graph3_data_trade,"Trade, Transportation, and Utilities","grey");
+    }
+  ];
+
+  var gs3 = d3.graphScroll()
+    .container(d3.select('#container-3'))
+    .graph(d3.selectAll('#container-3 .graph'))
+    .eventId('uniqueId3')  // namespace for scroll and resize events
+    .sections(d3.selectAll('#container-3 .sections > div'))
+    .on('active', function(i){
+      if(i <= graph3Steps.length-1) {
+        graph3Steps[i]();
+      }        
+    })
 
   // Graph 4
   var graph4_width = d3.select(' #container-4 .graph').node().offsetWidth;
@@ -560,6 +648,19 @@ function render(){
       .attr("dx", -1*graph2_verticalSize/2)
       .attr("transform", "rotate(-90)")
       .text("Percentage Change from January 2020");
+
+    var chart3 = graph3Svg.append('g')
+      .classed('chart', true)
+      .attr('transform', 'translate(' + margin*5 + ','+margin+')')
+      .attr('pointer-events', 'all');
+    chart3.append("g")
+      .attr("transform", `translate(0,${graph2_height - margin*4})`)
+      .style("font-size","15px")
+      .call(d3.axisBottom(_graph3_x).tickFormat(d=>d3.utcFormat("%b %Y")(d)));
+    chart3.append("g")
+      .attr("transform", `translate(${margin},0)`)
+      .style("font-size","15px")
+      .call(d3.axisLeft(_graph3_y));
 
     var chart4 = graph4Svg.append('g')
       .classed('chart', true)
