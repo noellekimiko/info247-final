@@ -22,20 +22,6 @@ function render(){
       return function(t) { return i(t) };
   }
 
-  // Define the tooltip
-  var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0)
-    .style("position", "absolute")
-    .style("text-align", "center")
-    .style("width", "60px")
-    .style("padding", "2px")
-    .style("background", "white")
-    .style("border", "1px solid black")
-    .style("border-radius", "3px")
-    .style("pointer-events", "none");
-
-
   // Reusable employment trends
   var global_change_min = -18;
   var global_change_max = 4;
@@ -58,18 +44,6 @@ function render(){
         .attr("stroke",strokeColor)
         .attr("stroke-width",5)
         .attr("stroke-miterlimit","1")
-      .on('mouseover', function (d) {
-            d3.select(this).transition()
-            .attr("stroke-width", 5)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", 0);
-        })
-      .on('mouseout', function (d) {
-            d3.select(this).transition()
-            .attr("stroke-width", 5)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", 0);
-        })
       .append("title")
         .text(title);
   }
@@ -99,30 +73,7 @@ function render(){
         .attr('cy', function(d) {return y(d.change)})
         .attr('r',  radius)
         .style('fill', fillColor)
-        .style('opacity', '0.5')
-      .on('mouseover', function (d, i) {
-          d3.select(this).transition()
-            .attr("r", (radius*2));
-          var change = (d.change).toFixed(2).toString() + '%';
-          var date = d3.timeFormat("%b %Y")(d3.timeParse("%Y-%m-%d")(d.date));
-          var tooltipText = date + " " + change;
-
-          var rect = this.getBoundingClientRect();
-          tooltip.transition()    
-            .duration(200)  
-            .style("opacity", .9);  
-          tooltip.html(tooltipText) 
-            .style("left", (rect.left + 5 + window.scrollX) + "px")
-            .style("top", (rect.top + window.scrollY)+ "px"); 
-        })
-      .on('mouseout', function (d, i) {
-          d3.select(this).transition()
-            .attr("stroke-width", 5)
-            .attr("r", radius);
-          tooltip.transition()    
-            .duration(500)    
-            .style("opacity", 0); 
-        });
+        .style('opacity', '0.5');
   }
 
   function _emp_generator(svg,x,y,line_generator,data,pathIdName,title,color,includePoints,includeTransition) {
@@ -183,101 +134,24 @@ function render(){
   }
 
   // Graphic 1: Total employment trends
-  var graph1_width = d3.select(' #container-1 .graph').node().offsetWidth;
-  var graph1_height = d3.select(' #container-1 .graph').node().offsetHeight;
-  var graph1_verticalSize = graph1_height - margin * 2;
-  var graph1_horizontalSize = graph1_width - margin * 2;
-  var graph1Svg = d3.select('#container-1 .graph').html('')
-    .append('svg')
-      .attrs({width: graph1_width, height: graph1_height});
-
-  var gs1 = d3.graphScroll()
-      .container(d3.select('#container-1'))
-      .graph(d3.selectAll('#container-1 .graph'))
-      .eventId('uniqueId1')  // namespace for scroll and resize events
-      .sections(d3.selectAll('#container-1 .sections > div'))
-      .on('active', function(i){
-        if(i <= graph1Steps.length-1) {
-          graph1Steps[i]();
-        }        
-      })
-
-  var _graph1_x = d3.scaleTime()
-    .domain([global_date_start,global_date_end])
-    .range([margin, graph1_horizontalSize]);
-
-  var _graph1_y = d3.scaleLinear()
-    .domain([global_change_min,global_change_max])
-    .range([graph1_verticalSize, margin]);
-
-  var _graph1_line_generator = d3.line()
-    .x(d => _graph1_x(d3.timeParse("%Y-%m-%d")(d.date)))
-    .y(d => _graph1_y(d.change));
-
-  function graph1_clearItems() {
-    var chart = graph1Svg.selectAll('.chart');
-    chart.selectAll(".timeseries")
-      .transition()
-      .duration(1000)
-      .style("opacity", 0)
-      .remove();
-    chart.selectAll(".dataPoint")
-      .transition()
-      .duration(1000)
-      .style("opacity", 0)
-      .remove();
-  }
-
-  var graph1Steps = [
-    function () {
-      graph1_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-    },
-
-    function () {
-      graph1_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
-    },
-
-    function () {
-      graph1_clearItems();
-      // These are to make the animation appear for only the part after the drop
-      graph_totalNonFarm_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      // Animated lines
-      graph_totalNonFarm(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
-      graph_healthcareAndSocialAssistance(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
-    },
-
-    function () {
-      graph1_clearItems();
-      graph_ambulatory(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-    },
-
-    function () {
-      graph1_clearItems();
-      graph_ambulatory(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      graph_hospital(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
-    },
-
-    function () {
-      graph1_clearItems();
-      graph_ambulatory(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      graph_hospital(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, false);
-      graph_nursing(graph1Svg,_graph1_x, _graph1_y, _graph1_line_generator, false, true);
-    },
-  ]
-
-  // Graph 2
   var graph2_width = d3.select(' #container-2 .graph').node().offsetWidth;
-  var graph2_height = (d3.select(' #container-2 .graph').node().offsetHeight);
+  var graph2_height = d3.select(' #container-2 .graph').node().offsetHeight;
   var graph2_verticalSize = graph2_height - margin * 2;
   var graph2_horizontalSize = graph2_width - margin * 2;
-
   var graph2Svg = d3.select('#container-2 .graph').html('')
     .append('svg')
       .attrs({width: graph2_width, height: graph2_height});
+
+  var gs1 = d3.graphScroll()
+      .container(d3.select('#container-2'))
+      .graph(d3.selectAll('#container-2 .graph'))
+      .eventId('uniqueId1')  // namespace for scroll and resize events
+      .sections(d3.selectAll('#container-2 .sections > div'))
+      .on('active', function(i){
+        if(i <= graph2Steps.length-1) {
+          graph2Steps[i]();
+        }        
+      })
 
   var _graph2_x = d3.scaleTime()
     .domain([global_date_start,global_date_end])
@@ -292,36 +166,59 @@ function render(){
     .y(d => _graph2_y(d.change));
 
   function graph2_clearItems() {
-      var chart = graph2Svg.selectAll('.chart');
-      chart.selectAll(".timeseries").remove();
-      chart.selectAll(".dataPoint").remove();
+    var chart = graph2Svg.selectAll('.chart');
+    chart.selectAll(".timeseries")
+      .transition()
+      .duration(1000)
+      .style("opacity", 0)
+      .remove();
+    chart.selectAll(".dataPoint")
+      .transition()
+      .duration(1000)
+      .style("opacity", 0)
+      .remove();
   }
 
-  var selector = d3.select('#container-2>select');
+  var graph2Steps = [
+    function () {
+      graph2_clearItems();
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+    },
 
-  const graphFunctions = [
-     graph_allLines,
-     graph_totalNonFarm,
-     graph_totalAndSector,
-     graph_healthcareAndSocialAssistance,
-     graph_allSubsectors,
-     graph_ambulatory,
-     graph_hospital,
-     graph_nursing
-  ];
-    
-   selector.on('change', function() {
-     var selectedGraph = +this.value;
-     var selectedGraphIndex = selectedGraph - 1;
-     if (selectedGraphIndex < 0) {
-       return;
-     }
-     if (selectedGraphIndex > graphFunctions.length -1) {
-       return;
-     }
-     graph2_clearItems();
-     graphFunctions[selectedGraphIndex](graph2Svg,_graph2_x,_graph2_y,_graph2_line_generator,true);
-   });
+    function () {
+      graph2_clearItems();
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+    },
+
+    function () {
+      graph2_clearItems();
+      // These are to make the animation appear for only the part after the drop
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      // Animated lines
+      graph_totalNonFarm(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_healthcareAndSocialAssistance(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+    },
+
+    function () {
+      graph2_clearItems();
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+    },
+
+    function () {
+      graph2_clearItems();
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+    },
+
+    function () {
+      graph2_clearItems();
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_nursing(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+    },
+  ]
 
   // Graph 4
   var graph4_width = d3.select(' #container-4 .graph').node().offsetWidth;
@@ -400,73 +297,73 @@ function render(){
 
   function circle1(isInitial) {
     if (isInitial){
-      graph4_circle(1,(graph2_width*0.5),(graph2_height*0.5),20,"darkred","2%","34%","10%","Nurses plan to resign by 2022",15,opacityHidden);
+      graph4_circle(1,(graph4_width*0.5),(graph4_height*0.5),20,"darkred","2%","34%","10%","Nurses plan to resign by 2022",15,opacityHidden);
     } else {
-      graph4_circle(1,(graph2_width*0.5),(graph2_height*0.1),50,"darkred","2%","34%","10%","Nurses plan to resign by 2022",35,opacityVisible);
+      graph4_circle(1,(graph4_width*0.5),(graph4_height*0.1),50,"darkred","2%","34%","10%","Nurses plan to resign by 2022",35,opacityVisible);
     }
   }
 
   function circle2(isInitial) {
     if (isInitial){
-      graph4_circle(2,(graph2_width*0.2),(graph2_height*0.5),20,"grey","1.5%","44%","9%","Burnout & High Stress",15,opacityHidden);
+      graph4_circle(2,(graph4_width*0.2),(graph4_height*0.5),20,"grey","1.5%","44%","9%","Burnout & High Stress",15,opacityHidden);
     } else {
-      graph4_circle(2,(graph2_width*0.25),(graph2_height*0.35),40,"grey","1.5%","44%","9%","Burnout & High Stress",30,opacityVisible);
+      graph4_circle(2,(graph4_width*0.25),(graph4_height*0.35),40,"grey","1.5%","44%","9%","Burnout & High Stress",30,opacityVisible);
     }
   }
 
   function circle3(isInitial) {
     if (isInitial){
-      graph4_circle(3,(graph2_width*0.8),(graph2_height*0.5),20,"grey","1.5%","27%","9%","Benefits & Pay",15,opacityHidden);
+      graph4_circle(3,(graph4_width*0.8),(graph4_height*0.5),20,"grey","1.5%","27%","9%","Benefits & Pay",15,opacityHidden);
     } else {
-      graph4_circle(3,(graph2_width*0.75),(graph2_height*0.35),40,"grey","1.5%","27%","9%","Benefits & Pay",30,opacityVisible);
+      graph4_circle(3,(graph4_width*0.75),(graph4_height*0.35),40,"grey","1.5%","27%","9%","Benefits & Pay",30,opacityVisible);
     }
   }
 
   function circle4(isInitial) {
     if (isInitial){
-      graph4_circle(4,(graph2_width*0.1),(graph2_height*0.8),20,"grey","1%","66%","7%","Not appreciated by community",15,opacityHidden);
+      graph4_circle(4,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","66%","7%","Not appreciated by community",15,opacityHidden);
     } else {
-      graph4_circle(4,(graph2_width*0.25),(graph2_height*0.6),30,"grey","1%","66%","7%","Not appreciated by community",20,opacityVisible);
+      graph4_circle(4,(graph4_width*0.25),(graph4_height*0.6),30,"grey","1%","66%","7%","Not appreciated by community",20,opacityVisible);
     }
   }
 
   function circle5(isInitial) {
     if (isInitial){
-      graph4_circle(5,(graph2_width*0.1),(graph2_height*0.8),20,"grey","1%","64%","7%","Mental & Physical Abuse",15,opacityHidden);
+      graph4_circle(5,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","64%","7%","Mental & Physical Abuse",15,opacityHidden);
     } else {
-      graph4_circle(5,(graph2_width*0.25),(graph2_height*0.8),30,"grey","1%","64%","7%","Mental & Physical Abuse",20,opacityVisible);
+      graph4_circle(5,(graph4_width*0.25),(graph4_height*0.8),30,"grey","1%","64%","7%","Mental & Physical Abuse",20,opacityVisible);
     }
   }
 
   function circle6(isInitial) {
     if (isInitial){
-      graph4_circle(6,(graph2_width*0.1),(graph2_height*0.8),20,"grey","1%","32%","7%","Workplace Discrimination/Racism",15,opacityHidden);
+      graph4_circle(6,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","32%","7%","Workplace Discrimination/Racism",15,opacityHidden);
     } else {
-      graph4_circle(6,(graph2_width*0.25),(graph2_height*1),30,"grey","1%","32%","7%","Workplace Discrimination/Racism",20,opacityVisible);
+      graph4_circle(6,(graph4_width*0.25),(graph4_height*1),30,"grey","1%","32%","7%","Workplace Discrimination/Racism",20,opacityVisible);
     }
   }
 
   function circle7(isInitial) {
     if (isInitial){
-      graph4_circle(7,(graph2_width*0.9),(graph2_height*0.8),20,"grey","1%","58%","7%","Want to move for a higher pay",15,opacityHidden);
+      graph4_circle(7,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","58%","7%","Want to move for a higher pay",15,opacityHidden);
     } else {
-      graph4_circle(7,(graph2_width*0.75),(graph2_height*0.6),30,"grey","1%","58%","7%","Want to move for a higher pay",20,opacityVisible);
+      graph4_circle(7,(graph4_width*0.75),(graph4_height*0.6),30,"grey","1%","58%","7%","Want to move for a higher pay",20,opacityVisible);
     }
   }
 
   function circle8(isInitial) {
     if (isInitial){
-      graph4_circle(8,(graph2_width*0.9),(graph2_height*0.8),20,"grey","1%","31%","7%","Want to move for an improved schedule",15,opacityHidden);
+      graph4_circle(8,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for an improved schedule",15,opacityHidden);
     } else {
-      graph4_circle(8,(graph2_width*0.75),(graph2_height*0.8),30,"grey","1%","31%","7%","Want to move for an improved schedule",20,opacityVisible);
+      graph4_circle(8,(graph4_width*0.75),(graph4_height*0.8),30,"grey","1%","31%","7%","Want to move for an improved schedule",20,opacityVisible);
     }
   }
 
   function circle9(isInitial) {
     if (isInitial){
-      graph4_circle(9,(graph2_width*0.9),(graph2_height*0.8),20,"grey","1%","31%","7%","Want to move for better career opportunities",15,opacityHidden);
+      graph4_circle(9,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for better career opportunities",15,opacityHidden);
     } else {
-      graph4_circle(9,(graph2_width*0.75),(graph2_height*1),30,"grey","1%","31%","7%","Want to move for better career opportunities",20,opacityVisible);
+      graph4_circle(9,(graph4_width*0.75),(graph4_height*1),30,"grey","1%","31%","7%","Want to move for better career opportunities",20,opacityVisible);
     }
   }
 
@@ -489,7 +386,7 @@ function render(){
         .attr("opacity", opacityVisible);
     d3.select("#graph4_group_"+idNum).transition()
         .delay(duration)
-        .attr("transform", "translate(" + (graph2_width*xTranslate) + "," + (graph2_height*yTranslate) + ")");
+        .attr("transform", "translate(" + (graph4_width*xTranslate) + "," + (graph4_height*yTranslate) + ")");
   }
 
   var graph4Steps = [
@@ -512,7 +409,7 @@ function render(){
         .attr("opacity", opacityVisible);
       d3.select("#graph4_group_1").transition()
           .delay(duration)
-          .attr("transform", "translate(" + (graph2_width*0.5) + "," + (graph2_height*0.1) + ")");
+          .attr("transform", "translate(" + (graph4_width*0.5) + "," + (graph4_height*0.1) + ")");
     },
 
     function() {
@@ -641,19 +538,6 @@ function render(){
       .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'});
 
   function setupCharts() { 
-    var chart1 = graph1Svg.append('g')
-      .classed('chart', true)
-      .attr('transform', 'translate(' + margin + ',0)')
-      .attr('pointer-events', 'all');
-
-    // Axes
-    chart1.append('g')
-      .attr("transform", `translate(0,${graph1_height - margin*2})`)
-      .call(d3.axisBottom(_graph1_x));
-    chart1.append('g')
-      .attr("transform", `translate(${margin},0)`)
-      .call(d3.axisLeft(_graph1_y));
-
     var chart2 = graph2Svg.append('g')
       .classed('chart', true)
       .attr('transform', 'translate(' + margin + ',0)')

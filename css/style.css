@@ -65,35 +65,24 @@ h3{
   top: 0px;
 }
 
-#container-0 .graph video{
-  width: 100%;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-#container-1 span {
+#container-2 span {
   font-weight: bold;
 }
 
-#container-1 span.healthcare{
+#container-2 span.healthcare{
   color: #008000;
 }
 
-#container-1 span.ambulatory{
+#container-2 span.ambulatory{
   color: #4682b4;
 }
 
-#container-1 span.hospital{
+#container-2 span.hospital{
   color: #ffa500;  
 }
 
-#container-1 span.nursing{
+#container-2 span.nursing{
   color: #fa8072;
-}
-
-#container-2 .graph{
-  width: 90%;
-  height: 80vh;
 }
 
 .mono{
