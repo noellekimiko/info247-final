@@ -11,7 +11,7 @@ function render(){
   //code for line animation borrowed from Pablo Gutierrez (https://observablehq.com/@blosky/animated-line-chart)
   function transition(path) {
       path.transition()
-          .duration(2000)
+          .duration(4000)
           .attrTween("stroke-dasharray", tweenDash)
           .on("end", () => { d3.select('.temperature-line').call(transition); });
   }
@@ -182,7 +182,7 @@ function render(){
   var graph2Steps = [
     function () {
       graph2_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
     },
 
     function () {
