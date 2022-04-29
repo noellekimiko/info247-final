@@ -136,8 +136,8 @@ function render(){
   // Graphic 1: Total employment trends
   var graph2_width = d3.select(' #container-2 .graph').node().offsetWidth;
   var graph2_height = d3.select(' #container-2 .graph').node().offsetHeight;
-  var graph2_verticalSize = graph2_height - margin * 2;
-  var graph2_horizontalSize = graph2_width - margin * 2;
+  var graph2_verticalSize = graph2_height - margin * 4;
+  var graph2_horizontalSize = graph2_width - (margin * 8);
   var graph2Svg = d3.select('#container-2 .graph').html('')
     .append('svg')
       .attrs({width: graph2_width, height: graph2_height});
@@ -540,16 +540,26 @@ function render(){
   function setupCharts() { 
     var chart2 = graph2Svg.append('g')
       .classed('chart', true)
-      .attr('transform', 'translate(' + margin + ',0)')
+      .attr('transform', 'translate(' + margin*5 + ','+margin+')')
       .attr('pointer-events', 'all');
 
     // Axes
     chart2.append('g')
-      .attr("transform", `translate(0,${graph2_height - margin*2})`)
-      .call(d3.axisBottom(_graph2_x));
+      .attr("transform", `translate(0,${graph2_height - margin*4})`)
+      .style("font-size","15px")
+      .call(d3.axisBottom(_graph2_x).tickFormat(d=>d3.utcFormat("%b %Y")(d)));
     chart2.append('g')
       .attr("transform", `translate(${margin},0)`)
-      .call(d3.axisLeft(_graph2_y));
+      .style("font-size","15px")
+      .call(d3.axisLeft(_graph2_y).tickFormat(d=>(d+"%")));
+    chart2.append("text")
+      .attr("class", "y-label")
+      .style("font-size","20px")
+      .attr("text-anchor", "middle")
+      .attr("y", -3*margin)
+      .attr("dx", -1*graph2_verticalSize/2)
+      .attr("transform", "rotate(-90)")
+      .text("Percentage Change from January 2020");
 
     var chart4 = graph4Svg.append('g')
       .classed('chart', true)
