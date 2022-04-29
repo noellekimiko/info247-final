@@ -331,7 +331,7 @@ function render(){
     if (isInitial){
       graph4_circle(5,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","64%","7%","Mental & Physical Abuse",15,opacityHidden);
     } else {
-      graph4_circle(5,(graph4_width*0.25),(graph4_height*0.8),30,"grey","1%","64%","7%","Mental & Physical Abuse",20,opacityVisible);
+      graph4_circle(5,(graph4_width*0.25),(graph4_height*0.75),30,"grey","1%","64%","7%","Mental & Physical Abuse",20,opacityVisible);
     }
   }
 
@@ -339,7 +339,7 @@ function render(){
     if (isInitial){
       graph4_circle(6,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","32%","7%","Workplace Discrimination/Racism",15,opacityHidden);
     } else {
-      graph4_circle(6,(graph4_width*0.25),(graph4_height*1),30,"grey","1%","32%","7%","Workplace Discrimination/Racism",20,opacityVisible);
+      graph4_circle(6,(graph4_width*0.25),(graph4_height*0.9),30,"grey","1%","32%","7%","Workplace Discrimination/Racism",20,opacityVisible);
     }
   }
 
@@ -355,7 +355,7 @@ function render(){
     if (isInitial){
       graph4_circle(8,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for an improved schedule",15,opacityHidden);
     } else {
-      graph4_circle(8,(graph4_width*0.75),(graph4_height*0.8),30,"grey","1%","31%","7%","Want to move for an improved schedule",20,opacityVisible);
+      graph4_circle(8,(graph4_width*0.75),(graph4_height*0.75),30,"grey","1%","31%","7%","Want to move for an improved schedule",20,opacityVisible);
     }
   }
 
@@ -363,7 +363,7 @@ function render(){
     if (isInitial){
       graph4_circle(9,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for better career opportunities",15,opacityHidden);
     } else {
-      graph4_circle(9,(graph4_width*0.75),(graph4_height*1),30,"grey","1%","31%","7%","Want to move for better career opportunities",20,opacityVisible);
+      graph4_circle(9,(graph4_width*0.75),(graph4_height*0.9),30,"grey","1%","31%","7%","Want to move for better career opportunities",20,opacityVisible);
     }
   }
 
@@ -432,8 +432,8 @@ function render(){
       circle6(true);
 
       circleTransition(4,30,20,0.25,0.6);
-      circleTransition(5,30,20,0.25,0.8);
-      circleTransition(6,30,20,0.25,1);
+      circleTransition(5,30,20,0.25,0.75);
+      circleTransition(6,30,20,0.25,0.9);
     },
     function() {
       graph4_clearItems();
@@ -448,8 +448,8 @@ function render(){
       circle9(true);
 
       circleTransition(7,30,20,0.75,0.6);
-      circleTransition(8,30,20,0.75,0.8);
-      circleTransition(9,30,20,0.75,1);
+      circleTransition(8,30,20,0.75,0.75);
+      circleTransition(9,30,20,0.75,0.9);
     }
   ];
 
