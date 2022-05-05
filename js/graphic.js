@@ -9,11 +9,11 @@ function render(){
   var scaleY = null;
   
   //code for line animation borrowed from Pablo Gutierrez (https://observablehq.com/@blosky/animated-line-chart)
-  function transition(path) {
+  function transition(path, strokeColor) {
       path.transition()
           .duration(4000)
-          .attrTween("stroke-dasharray", tweenDash)
-          .on("end", () => { d3.select('.temperature-line').call(transition); });
+          .attr("stroke",strokeColor)
+          .attrTween("stroke-dasharray", tweenDash);
   }
 
   function tweenDash() {
@@ -54,10 +54,9 @@ function render(){
         .classed('timeseries', true)
         .attr("d",line_generator(data))
         .attr("fill","none")
-        .attr("stroke",strokeColor)
         .attr("stroke-width",5)
         .attr("stroke-miterlimit","1")
-        .call(transition)
+        .call(transition, strokeColor)
       .append("title")
         .text(title);
   }
