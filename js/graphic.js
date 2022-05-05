@@ -631,10 +631,6 @@ function render(){
         }        
       });
 
-  // footer
-  d3.select('.footer')
-      .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'});
-
   function setupCharts() { 
     var chart2 = graph2Svg.append('g')
       .classed('chart', true)
