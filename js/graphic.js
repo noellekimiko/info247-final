@@ -255,7 +255,8 @@ function render(){
   var graph3_value_max = 3.5;
   var graph3_date_start = new Date(2020, 0, 1);
   var graph3_date_end = new Date(2021, 11, 1);
-  var graph3_data = [{"month":"2020-01-01","total":1.197522598,"healthcare":1.755102041},{"month":"2020-02-01","total":1.172771366,"healthcare":1.692762186},{"month":"2020-03-01","total":1.124123149,"healthcare":1.879061372},{"month":"2020-04-01","total":1.174530695,"healthcare":1.879385965},{"month":"2020-05-01","total":0.65848646,"healthcare":0.802367942},{"month":"2020-06-01","total":0.794075614,"healthcare":1.21641791},{"month":"2020-07-01","total":1.076960077,"healthcare":1.514056225},{"month":"2020-08-01","total":1.003109936,"healthcare":1.724358974},{"month":"2020-09-01","total":1.114463924,"healthcare":1.774143302},{"month":"2020-10-01","total":1.138856669,"healthcare":2},{"month":"2020-11-01","total":1.124106995,"healthcare":1.943307087},{"month":"2020-12-01","total":1.247828498,"healthcare":1.875197472},{"month":"2021-01-01","total":1.298993596,"healthcare":2.040133779},{"month":"2021-02-01","total":1.298929928,"healthcare":2.408427877},{"month":"2021-03-01","total":1.37995338,"healthcare":2.0109375},{"month":"2021-04-01","total":1.52910845,"healthcare":2.118003026},{"month":"2021-05-01","total":1.574726005,"healthcare":2.220364742},{"month":"2021-06-01","total":1.491870514,"healthcare":2.245877061},{"month":"2021-07-01","total":1.641473155,"healthcare":2.625931446},{"month":"2021-08-01","total":1.63598584,"healthcare":2.366863905},{"month":"2021-09-01","total":1.619615032,"healthcare":2.411214953},{"month":"2021-10-01","total":1.704734092,"healthcare":2.681492109},{"month":"2021-11-01","total":1.633565797,"healthcare":2.561009818},{"month":"2021-12-01","total":1.744371707,"healthcare":2.65192582}];
+  var graph3_data_total = [{"month":"2020-01-01","value":1.197522598},{"month":"2020-02-01","value":1.172771366},{"month":"2020-03-01","value":1.124123149},{"month":"2020-04-01","value":1.174530695},{"month":"2020-05-01","value":0.65848646},{"month":"2020-06-01","value":0.794075614},{"month":"2020-07-01","value":1.076960077},{"month":"2020-08-01","value":1.003109936},{"month":"2020-09-01","value":1.114463924},{"month":"2020-10-01","value":1.138856669},{"month":"2020-11-01","value":1.124106995},{"month":"2020-12-01","value":1.247828498},{"month":"2021-01-01","value":1.298993596},{"month":"2021-02-01","value":1.298929928},{"month":"2021-03-01","value":1.37995338},{"month":"2021-04-01","value":1.52910845},{"month":"2021-05-01","value":1.574726005},{"month":"2021-06-01","value":1.491870514},{"month":"2021-07-01","value":1.641473155},{"month":"2021-08-01","value":1.63598584},{"month":"2021-09-01","value":1.619615032},{"month":"2021-10-01","value":1.704734092},{"month":"2021-11-01","value":1.633565797},{"month":"2021-12-01","value":1.744371707}];
+  var graph3_data_healthcare = [{"month":"2020-01-01","value":1.755102041},{"month":"2020-02-01","value":1.692762186},{"month":"2020-03-01","value":1.879061372},{"month":"2020-04-01","value":1.879385965},{"month":"2020-05-01","value":0.802367942},{"month":"2020-06-01","value":1.21641791},{"month":"2020-07-01","value":1.514056225},{"month":"2020-08-01","value":1.724358974},{"month":"2020-09-01","value":1.774143302},{"month":"2020-10-01","value":2},{"month":"2020-11-01","value":1.943307087},{"month":"2020-12-01","value":1.875197472},{"month":"2021-01-01","value":2.040133779},{"month":"2021-02-01","value":2.408427877},{"month":"2021-03-01","value":2.0109375},{"month":"2021-04-01","value":2.118003026},{"month":"2021-05-01","value":2.220364742},{"month":"2021-06-01","value":2.245877061},{"month":"2021-07-01","value":2.625931446},{"month":"2021-08-01","value":2.366863905},{"month":"2021-09-01","value":2.411214953},{"month":"2021-10-01","value":2.681492109},{"month":"2021-11-01","value":2.561009818},{"month":"2021-12-01","value":2.65192582}];
   var graph3_width = d3.select(' #container-3 .graph').node().offsetWidth;
   var graph3_height = d3.select(' #container-3 .graph').node().offsetHeight;
   var graph3_verticalSize = graph3_height - margin * 4;
@@ -272,13 +273,9 @@ function render(){
     .domain([0, graph3_value_max])
     .range([graph3_verticalSize, margin]);
 
-  var _graph3_line_generator_total = d3.line()
+  var _graph3_line_generator = d3.line()
     .x(d => _graph3_x(d3.timeParse("%Y-%m-%d")(d.month)))
-    .y(d => _graph3_y(d.total));
-
-  var _graph3_line_generator_healthcare = d3.line()
-    .x(d => _graph3_x(d3.timeParse("%Y-%m-%d")(d.month)))
-    .y(d => _graph3_y(d.healthcare));
+    .y(d => _graph3_y(d.value));
 
   function graph3_clearItems() {
     var chart = graph3Svg.selectAll('.chart');
@@ -287,13 +284,19 @@ function render(){
       .duration(1000)
       .style("opacity", 0)
       .remove();
+    chart.selectAll(".dataPoint").remove();
   }
 
-  function graph3_path_generator(line_generator,title,strokeColor){
+  function graph3_generator(data,id,title,strokeColor) {
     var chart = graph3Svg.selectAll('.chart');
+    graph3_path_generator(chart,data,title,strokeColor);
+    graph3_points_generator(chart,id,data);
+  }
+
+  function graph3_path_generator(chart,data,title,strokeColor){
     chart.append("path")
       .classed('openings-hires', true)
-      .attr("d", line_generator(graph3_data))
+      .attr("d", _graph3_line_generator(data))
       .attr("fill", "none")
       .attr("stroke-width", 5)
       .attr("stroke-miterlimit","1")
@@ -302,14 +305,44 @@ function render(){
         .text(title);
   }
 
+  function graph3_points_generator(chart,forPathId,data) {
+    chart.selectAll('circle'+'.'+forPathId+'_point')
+      .data(data)
+      .enter()
+      .append('circle')
+        .attr('class', ' dataPoint ' + forPathId + '_point')
+        .attr('cx', function(d) {return _graph3_x(d3.timeParse("%Y-%m-%d")(d.month))})
+        .attr('cy', function(d) {return _graph3_y(d.value)})
+        .attr('r',  radius)
+        .style('opacity', '0')
+      .on('mouseover', function (d, i) {
+          var value = (d.value).toFixed(2).toString();
+          var date = d3.timeFormat("%b %Y")(d3.timeParse("%Y-%m-%d")(d.month));
+          var tooltipText = date + " " + value;
+
+          var rect = this.getBoundingClientRect();
+          tooltip.transition()    
+            .duration(200)  
+            .style("opacity", .9);  
+          tooltip.html(tooltipText) 
+            .style("left", (rect.left + 5 + window.scrollX) + "px")
+            .style("top", (rect.top + window.scrollY)+ "px"); 
+        })
+      .on('mouseout', function (d, i) {
+          tooltip.transition()    
+            .duration(500)    
+            .style("opacity", 0); 
+        });
+  }
+
   var graph3Steps = [
     function() {
       graph3_clearItems();
     },
     function () {
       graph3_clearItems();
-      graph3_path_generator(_graph3_line_generator_total,"Total","grey");
-      graph3_path_generator(_graph3_line_generator_healthcare,"Health Care and Social Assistance","#008000");
+      graph3_generator(graph3_data_total,"total","Total Non-Farm","grey");
+      graph3_generator(graph3_data_healthcare,"health","Health Care and Social Assistance","#008000");
     }
   ];
 
