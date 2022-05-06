@@ -290,12 +290,77 @@ function render(){
   // Graph 4
   var graph4_width = d3.select(' #container-4 .graph').node().offsetWidth;
   var graph4_height = (d3.select(' #container-4 .graph').node().offsetHeight);
+  var graph4_verticalSize_graph = graph4_height - margin * 4;
+  var graph4_horizontalSize_graph = graph4_width - (margin * 8);
   var graph4_verticalSize = graph4_height - margin * 2;
   var graph4_horizontalSize = graph4_width - margin * 2;
+  var graph4_earnings = [{"month":"2020-01-01","private":975.15,"nursing":642.95},{"month":"2020-02-01","private":982.46,"nursing":649.57},{"month":"2020-03-01","private":981.74,"nursing":653.59},{"month":"2020-04-01","private":1026.34,"nursing":683.32},{"month":"2020-05-01","private":1030.94,"nursing":693.25},{"month":"2020-06-01","private":1015.86,"nursing":684.45},{"month":"2020-07-01","private":1017.59,"nursing":683.76},{"month":"2020-08-01","private":1022.96,"nursing":688.16},{"month":"2020-09-01","private":1026.95,"nursing":693.58},{"month":"2020-10-01","private":1030.60,"nursing":693.59},{"month":"2020-11-01","private":1031.82,"nursing":698.71},{"month":"2020-12-01","private":1038.22,"nursing":703.48},{"month":"2021-01-01","private":1047.55,"nursing":707.61},{"month":"2021-02-01","private":1039.38,"nursing":709.32},{"month":"2021-03-01","private":1049.09,"nursing":704.86},{"month":"2021-04-01","private":1053.98,"nursing":711.70},{"month":"2021-05-01","private":1059.56,"nursing":717.17},{"month":"2021-06-01","private":1062.10,"nursing":726.13},{"month":"2021-07-01","private":1067.32,"nursing":730.85},{"month":"2021-08-01","private":1067.37,"nursing":732.24},{"month":"2021-09-01","private":1076.02,"nursing":743.38},{"month":"2021-10-01","private":1082.63,"nursing":748.34},{"month":"2021-11-01","private":1086.80,"nursing":754.12},{"month":"2021-12-01","private":1092.02,"nursing":762.62},{"month":"2022-01-01","private":1091.98,"nursing":767.50}];
+  var graph4_earnings_value_max = 1100;
+  var graph4_date_start = new Date(2020, 0, 1);
+  var graph4_date_end = new Date(2021, 11, 1);
 
   var graph4Svg = d3.select('#container-4 .graph').html('')
     .append('svg')
       .attrs({width: graph4_width, height: graph4_height});
+
+  function graph4_x_axis(chart){
+    chart.append("g")
+      .classed("graph4-axis",true)
+      .attr("transform", `translate(0,${graph2_height - margin*4})`)
+      .style("font-size","15px")
+      .call(d3.axisBottom(_graph4_x).tickFormat(d=>d3.utcFormat("%b %Y")(d)));
+  }
+  function graph4_y_axis(chart){
+    chart.append("g")
+      .classed("graph4-axis",true)
+      .attr("transform", `translate(${margin},0)`)
+      .style("font-size","15px")
+      .call(d3.axisLeft(_graph4_y));
+    chart.append("text")
+      .attr("class", "y-label")
+      .style("font-size","20px")
+      .attr("text-anchor", "middle")
+      .attr("y", -3*margin)
+      .attr("dx", -1*graph2_verticalSize/2)
+      .attr("transform", "rotate(-90)")
+      .text("Weekly Earnings (dollars, seasonally adjusted)");
+  }
+
+  var _graph4_x = d3.scaleTime()
+    .domain([graph4_date_start,graph4_date_end])
+    .range([margin, graph4_horizontalSize_graph]);
+
+  var _graph4_y = d3.scaleLinear()
+    .domain([0, graph4_earnings_value_max])
+    .range([graph4_verticalSize_graph, margin]);
+
+  var _graph4_line_generator_private = d3.line()
+    .x(d => _graph4_x(d3.timeParse("%Y-%m-%d")(d.month)))
+    .y(d => _graph4_y(d.private));
+
+  var _graph4_line_generator_nursing = d3.line()
+    .x(d => _graph4_x(d3.timeParse("%Y-%m-%d")(d.month)))
+    .y(d => _graph4_y(d.nursing));
+
+  function graph4_path_generator(line_generator,title,strokeColor){
+    var chart = graph4Svg.selectAll('.chart-graph');
+    chart.append("path")
+      .classed('earnings', true)
+      .attr("d", line_generator(graph4_earnings))
+      .attr("fill", "none")
+      .attr("stroke-width", 5)
+      .attr("stroke-miterlimit","1")
+      .call(transition, strokeColor)
+      .append("title")
+        .text(title);
+  }
+
+  function graph4_clearItems_graph() {
+    var chart = graph4Svg.selectAll('.chart-graph');
+    chart.selectAll(".graph4-axis").remove();
+    chart.selectAll(".y-label").remove();
+    chart.selectAll(".earnings").remove();
+  }
 
   // constants
   const duration = 600;
@@ -342,8 +407,8 @@ function render(){
       .attr("font-weight",800);
   }
 
- function graph4_clearItems() {
-    var chart = graph4Svg.selectAll('.chart');
+  function graph4_clearItems_bubbles() {
+    var chart = graph4Svg.selectAll('.chart-bubbles');
     chart.selectAll(".graph4_group").remove();
     chart.selectAll(".graph4_circle").remove();
     chart.selectAll(".graph4_label").remove();
@@ -352,7 +417,7 @@ function render(){
   }
 
   function graph4_circle(idNum,x,y,r,fill,labelY,label,textY,text,fontSize,opacity) {
-    var chart = graph4Svg.selectAll('.chart');
+    var chart = graph4Svg.selectAll('.chart-bubbles');
     var group = chart.append("g")
       .attr("id", "graph4_group_"+idNum)
       .classed("graph4_group", true)
@@ -459,16 +524,17 @@ function render(){
 
   var graph4Steps = [
     function() {
-      graph4_clearItems();
-      var chart = graph4Svg.selectAll('.chart');
-      chart.append("svg:image")
-        .classed("graph4_img",true)
-        .attr("width", graph4_horizontalSize)
-        .attr("height", "100vh")
-        .attr("xlink:href", "img/graphic4_earnings.png");
+      graph4_clearItems_graph();
+      graph4_clearItems_bubbles();
+      var chart = graph4Svg.selectAll('.chart-graph');
+      graph4_x_axis(chart);
+      graph4_y_axis(chart);
+      graph4_path_generator(_graph4_line_generator_private,"Total Non-Farm","grey");
+      graph4_path_generator(_graph4_line_generator_nursing,"Nursing and Residential Care","salmon");
     },
     function() {
-      graph4_clearItems();
+      graph4_clearItems_graph();
+      graph4_clearItems_bubbles();
       circle1(true);
 
       //transition circle 1
@@ -490,7 +556,7 @@ function render(){
     },
 
     function() {
-      graph4_clearItems();
+      graph4_clearItems_bubbles();
       circle1(false);
       circle2(true);
       circle3(true);
@@ -500,7 +566,7 @@ function render(){
     },
 
     function() {
-      graph4_clearItems();
+      graph4_clearItems_bubbles();
       circle1(false);
       circle2(false);
       circle3(false);
@@ -513,7 +579,7 @@ function render(){
       circleTransition(6,30,20,0.25,0.9);
     },
     function() {
-      graph4_clearItems();
+      graph4_clearItems_bubbles();
       circle1(false);
       circle2(false);
       circle3(false);
@@ -580,8 +646,12 @@ function render(){
       .style("font-size","15px")
       .call(d3.axisLeft(_graph3_y));
 
-    var chart4 = graph4Svg.append('g')
-      .classed('chart', true)
+    var chart4_graph = graph4Svg.append('g')
+      .classed('chart-graph', true)
+      .attr('transform', 'translate(' + margin*5 + ','+margin+')')
+      .attr('pointer-events', 'all');
+    var chart4_bubbles = graph4Svg.append('g')
+      .classed('chart-bubbles', true)
       .attr('transform', 'translate(' + margin + ',0)')
       .attr('pointer-events', 'all');
   }
