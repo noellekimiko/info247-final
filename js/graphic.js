@@ -4,9 +4,23 @@ function render(){
   oldWidth = innerWidth
 
   var margin = 15;
-  var radius = 3;
+  var radius = 5;
   var scaleX = null;
   var scaleY = null;
+
+  // Define the tooltip
+  var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("text-align", "center")
+    .style("width", "60px")
+    .style("padding", "2px")
+    .style("font-size", "14px")
+    .style("background", "white")
+    .style("border", "1px solid black")
+    .style("border-radius", "1px")
+    .style("pointer-events", "none");
   
   //code for line animation borrowed from Pablo Gutierrez (https://observablehq.com/@blosky/animated-line-chart)
   function transition(path, strokeColor) {
@@ -72,7 +86,25 @@ function render(){
         .attr('cy', function(d) {return y(d.change)})
         .attr('r',  radius)
         .style('fill', fillColor)
-        .style('opacity', '0.5');
+        .style('opacity', '0')
+      .on('mouseover', function (d, i) {
+          var change = (d.change).toFixed(2).toString() + '%';
+          var date = d3.timeFormat("%b %Y")(d3.timeParse("%Y-%m-%d")(d.date));
+          var tooltipText = date + " " + change;
+
+          var rect = this.getBoundingClientRect();
+          tooltip.transition()    
+            .duration(200)  
+            .style("opacity", .9);  
+          tooltip.html(tooltipText) 
+            .style("left", (rect.left + 5 + window.scrollX) + "px")
+            .style("top", (rect.top + window.scrollY)+ "px"); 
+        })
+      .on('mouseout', function (d, i) {
+          tooltip.transition()    
+            .duration(500)    
+            .style("opacity", 0); 
+        });
   }
 
   function _emp_generator(svg,x,y,line_generator,data,pathIdName,title,color,includePoints,includeTransition) {
@@ -181,41 +213,41 @@ function render(){
   var graph2Steps = [
     function () {
       graph2_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
-      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
       // These are to make the animation appear for only the part after the drop
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
-      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
       // Animated lines
-      graph_totalNonFarm(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
-      graph_healthcareAndSocialAssistance(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_totalNonFarm(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
+      graph_healthcareAndSocialAssistance(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
-      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
     },
 
     function () {
       graph2_clearItems();
-      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
-      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
-      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
-      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, false);
-      graph_nursing(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, false, true);
+      graph_ambulatory(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_hospital(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_nursing(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
   ]
 
