@@ -223,7 +223,7 @@ function render(){
   var graph3_value_max = 3.5;
   var graph3_date_start = new Date(2020, 0, 1);
   var graph3_date_end = new Date(2021, 11, 1);
-  var graph3_data_healthcare = [{"month":"2020-01-01","name":"Health Care and Social Assistance","value":"1.760115607"},{"month":"2020-02-01","name":"Health Care and Social Assistance","value":"1.664233577"},{"month":"2020-03-01","name":"Health Care and Social Assistance","value":"1.904761905"},{"month":"2020-04-01","name":"Health Care and Social Assistance","value":"1.864035088"},{"month":"2020-05-01","name":"Health Care and Social Assistance","value":"0.832869081"},{"month":"2020-06-01","name":"Health Care and Social Assistance","value":"1.226161369"},{"month":"2020-07-01","name":"Health Care and Social Assistance","value":"1.478723404"},{"month":"2020-08-01","name":"Health Care and Social Assistance","value":"1.760517799"},{"month":"2020-09-01","name":"Health Care and Social Assistance","value":"1.726851852"},{"month":"2020-10-01","name":"Health Care and Social Assistance","value":"1.89280245"},{"month":"2020-11-01","name":"Health Care and Social Assistance","value":"1.945773525"},{"month":"2020-12-01","name":"Health Care and Social Assistance","value":"1.860719875"},{"month":"2021-01-01","name":"Health Care and Social Assistance","value":"2.201096892"},{"month":"2021-02-01","name":"Health Care and Social Assistance","value":"2.311248074"},{"month":"2021-03-01","name":"Health Care and Social Assistance","value":"2.072617247"},{"month":"2021-04-01","name":"Health Care and Social Assistance","value":"2.080597015"},{"month":"2021-05-01","name":"Health Care and Social Assistance","value":"2.293154762"},{"month":"2021-06-01","name":"Health Care and Social Assistance","value":"2.3125"},{"month":"2021-07-01","name":"Health Care and Social Assistance","value":"2.585585586"},{"month":"2021-08-01","name":"Health Care and Social Assistance","value":"2.412371134"},{"month":"2021-09-01","name":"Health Care and Social Assistance","value":"2.456521739"},{"month":"2021-10-01","name":"Health Care and Social Assistance","value":"2.690677966"},{"month":"2021-11-01","name":"Health Care and Social Assistance","value":"2.53298153"},{"month":"2021-12-01","name":"Health Care and Social Assistance","value":"2.647849462"}];
+  var graph3_data = [{"month":"2020-01-01","total":1.197522598,"healthcare":1.755102041},{"month":"2020-02-01","total":1.172771366,"healthcare":1.692762186},{"month":"2020-03-01","total":1.124123149,"healthcare":1.879061372},{"month":"2020-04-01","total":1.174530695,"healthcare":1.879385965},{"month":"2020-05-01","total":0.65848646,"healthcare":0.802367942},{"month":"2020-06-01","total":0.794075614,"healthcare":1.21641791},{"month":"2020-07-01","total":1.076960077,"healthcare":1.514056225},{"month":"2020-08-01","total":1.003109936,"healthcare":1.724358974},{"month":"2020-09-01","total":1.114463924,"healthcare":1.774143302},{"month":"2020-10-01","total":1.138856669,"healthcare":2},{"month":"2020-11-01","total":1.124106995,"healthcare":1.943307087},{"month":"2020-12-01","total":1.247828498,"healthcare":1.875197472},{"month":"2021-01-01","total":1.298993596,"healthcare":2.040133779},{"month":"2021-02-01","total":1.298929928,"healthcare":2.408427877},{"month":"2021-03-01","total":1.37995338,"healthcare":2.0109375},{"month":"2021-04-01","total":1.52910845,"healthcare":2.118003026},{"month":"2021-05-01","total":1.574726005,"healthcare":2.220364742},{"month":"2021-06-01","total":1.491870514,"healthcare":2.245877061},{"month":"2021-07-01","total":1.641473155,"healthcare":2.625931446},{"month":"2021-08-01","total":1.63598584,"healthcare":2.366863905},{"month":"2021-09-01","total":1.619615032,"healthcare":2.411214953},{"month":"2021-10-01","total":1.704734092,"healthcare":2.681492109},{"month":"2021-11-01","total":1.633565797,"healthcare":2.561009818},{"month":"2021-12-01","total":1.744371707,"healthcare":2.65192582}];
   var graph3_width = d3.select(' #container-3 .graph').node().offsetWidth;
   var graph3_height = d3.select(' #container-3 .graph').node().offsetHeight;
   var graph3_verticalSize = graph3_height - margin * 4;
@@ -240,9 +240,13 @@ function render(){
     .domain([0, graph3_value_max])
     .range([graph3_verticalSize, margin]);
 
-  var _graph3_line_generator = d3.line()
+  var _graph3_line_generator_total = d3.line()
     .x(d => _graph3_x(d3.timeParse("%Y-%m-%d")(d.month)))
-    .y(d => _graph3_y(d.value));
+    .y(d => _graph3_y(d.total));
+
+  var _graph3_line_generator_healthcare = d3.line()
+    .x(d => _graph3_x(d3.timeParse("%Y-%m-%d")(d.month)))
+    .y(d => _graph3_y(d.healthcare));
 
   function graph3_clearItems() {
     var chart = graph3Svg.selectAll('.chart');
@@ -253,11 +257,11 @@ function render(){
       .remove();
   }
 
-  function graph3_path_generator(data,title,strokeColor){
+  function graph3_path_generator(line_generator,title,strokeColor){
     var chart = graph3Svg.selectAll('.chart');
     chart.append("path")
       .classed('openings-hires', true)
-      .attr("d", _graph3_line_generator(data))
+      .attr("d", line_generator(graph3_data))
       .attr("fill", "none")
       .attr("stroke-width", 5)
       .attr("stroke-miterlimit","1")
@@ -272,7 +276,8 @@ function render(){
     },
     function () {
       graph3_clearItems();
-      graph3_path_generator(graph3_data_healthcare,"Health Care and Social Assistance","#008000");
+      graph3_path_generator(_graph3_line_generator_total,"Total","grey");
+      graph3_path_generator(_graph3_line_generator_healthcare,"Health Care and Social Assistance","#008000");
     }
   ];
 
