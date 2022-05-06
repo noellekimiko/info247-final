@@ -364,10 +364,11 @@ function render(){
   var graph4_horizontalSize_graph = graph4_width - (margin * 8);
   var graph4_verticalSize = graph4_height - margin * 2;
   var graph4_horizontalSize = graph4_width - margin * 2;
-  var graph4_earnings = [{"month":"2020-01-01","private":975.15,"nursing":642.95},{"month":"2020-02-01","private":982.46,"nursing":649.57},{"month":"2020-03-01","private":981.74,"nursing":653.59},{"month":"2020-04-01","private":1026.34,"nursing":683.32},{"month":"2020-05-01","private":1030.94,"nursing":693.25},{"month":"2020-06-01","private":1015.86,"nursing":684.45},{"month":"2020-07-01","private":1017.59,"nursing":683.76},{"month":"2020-08-01","private":1022.96,"nursing":688.16},{"month":"2020-09-01","private":1026.95,"nursing":693.58},{"month":"2020-10-01","private":1030.60,"nursing":693.59},{"month":"2020-11-01","private":1031.82,"nursing":698.71},{"month":"2020-12-01","private":1038.22,"nursing":703.48},{"month":"2021-01-01","private":1047.55,"nursing":707.61},{"month":"2021-02-01","private":1039.38,"nursing":709.32},{"month":"2021-03-01","private":1049.09,"nursing":704.86},{"month":"2021-04-01","private":1053.98,"nursing":711.70},{"month":"2021-05-01","private":1059.56,"nursing":717.17},{"month":"2021-06-01","private":1062.10,"nursing":726.13},{"month":"2021-07-01","private":1067.32,"nursing":730.85},{"month":"2021-08-01","private":1067.37,"nursing":732.24},{"month":"2021-09-01","private":1076.02,"nursing":743.38},{"month":"2021-10-01","private":1082.63,"nursing":748.34},{"month":"2021-11-01","private":1086.80,"nursing":754.12},{"month":"2021-12-01","private":1092.02,"nursing":762.62},{"month":"2022-01-01","private":1091.98,"nursing":767.50}];
+  var graph4_earnings_total = [{"month":"2020-01-01","value":975.15},{"month":"2020-02-01","value":982.46},{"month":"2020-03-01","value":981.74},{"month":"2020-04-01","value":1026.34},{"month":"2020-05-01","value":1030.94},{"month":"2020-06-01","value":1015.86},{"month":"2020-07-01","value":1017.59},{"month":"2020-08-01","value":1022.96},{"month":"2020-09-01","value":1026.95},{"month":"2020-10-01","value":1030.60},{"month":"2020-11-01","value":1031.82},{"month":"2020-12-01","value":1038.22},{"month":"2021-01-01","value":1047.55},{"month":"2021-02-01","value":1039.38},{"month":"2021-03-01","value":1049.09},{"month":"2021-04-01","value":1053.98},{"month":"2021-05-01","value":1059.56},{"month":"2021-06-01","value":1062.10},{"month":"2021-07-01","value":1067.32},{"month":"2021-08-01","value":1067.37},{"month":"2021-09-01","value":1076.02},{"month":"2021-10-01","value":1082.63},{"month":"2021-11-01","value":1086.80},{"month":"2021-12-01","value":1092.02},{"month":"2022-01-01","value":1091.98}];
+  var graph4_earnings_nursing =[{"month":"2020-01-01","value":642.95},{"month":"2020-02-01","value":649.57},{"month":"2020-03-01","value":653.59},{"month":"2020-04-01","value":683.32},{"month":"2020-05-01","value":693.25},{"month":"2020-06-01","value":684.45},{"month":"2020-07-01","value":683.76},{"month":"2020-08-01","value":688.16},{"month":"2020-09-01","value":693.58},{"month":"2020-10-01","value":693.59},{"month":"2020-11-01","value":698.71},{"month":"2020-12-01","value":703.48},{"month":"2021-01-01","value":707.61},{"month":"2021-02-01","value":709.32},{"month":"2021-03-01","value":704.86},{"month":"2021-04-01","value":711.70},{"month":"2021-05-01","value":717.17},{"month":"2021-06-01","value":726.13},{"month":"2021-07-01","value":730.85},{"month":"2021-08-01","value":732.24},{"month":"2021-09-01","value":743.38},{"month":"2021-10-01","value":748.34},{"month":"2021-11-01","value":754.12},{"month":"2021-12-01","value":762.62},{"month":"2022-01-01","value":767.50}];
   var graph4_earnings_value_max = 1100;
   var graph4_date_start = new Date(2020, 0, 1);
-  var graph4_date_end = new Date(2021, 11, 1);
+  var graph4_date_end = new Date(2022, 0, 1);
 
   var graph4Svg = d3.select('#container-4 .graph').html('')
     .append('svg')
@@ -404,19 +405,20 @@ function render(){
     .domain([0, graph4_earnings_value_max])
     .range([graph4_verticalSize_graph, margin]);
 
-  var _graph4_line_generator_private = d3.line()
-    .x(d => _graph4_x(d3.timeParse("%Y-%m-%d")(d.month)))
-    .y(d => _graph4_y(d.private));
+  var _graph4_line_generator = d3.line()
+      .x(d => _graph4_x(d3.timeParse("%Y-%m-%d")(d.month)))
+      .y(d => _graph4_y(d.value));
 
-  var _graph4_line_generator_nursing = d3.line()
-    .x(d => _graph4_x(d3.timeParse("%Y-%m-%d")(d.month)))
-    .y(d => _graph4_y(d.nursing));
-
-  function graph4_path_generator(line_generator,title,strokeColor){
+  function graph4_generator(data,id,title,strokeColor) {
     var chart = graph4Svg.selectAll('.chart-graph');
+    graph4_path_generator(chart,data,title,strokeColor);
+    graph4_points_generator(chart,id,data);
+  }
+
+  function graph4_path_generator(chart,data,title,strokeColor){
     chart.append("path")
       .classed('earnings', true)
-      .attr("d", line_generator(graph4_earnings))
+      .attr("d", _graph4_line_generator(data))
       .attr("fill", "none")
       .attr("stroke-width", 5)
       .attr("stroke-miterlimit","1")
@@ -425,11 +427,42 @@ function render(){
         .text(title);
   }
 
+  function graph4_points_generator(chart,forPathId,data) {
+    chart.selectAll('circle'+'.'+forPathId+'_point')
+      .data(data)
+      .enter()
+      .append('circle')
+        .attr('class', ' dataPoint ' + forPathId + '_point')
+        .attr('cx', function(d) {return _graph4_x(d3.timeParse("%Y-%m-%d")(d.month))})
+        .attr('cy', function(d) {return _graph4_y(d.value)})
+        .attr('r',  radius)
+        .style('opacity', '0')
+      .on('mouseover', function (d, i) {
+          var value = '$'+(d.value).toFixed(2).toString();
+          var date = d3.timeFormat("%b %Y")(d3.timeParse("%Y-%m-%d")(d.month));
+          var tooltipText = date + " " + value;
+
+          var rect = this.getBoundingClientRect();
+          tooltip.transition()    
+            .duration(200)  
+            .style("opacity", .9);  
+          tooltip.html(tooltipText) 
+            .style("left", (rect.left + 5 + window.scrollX) + "px")
+            .style("top", (rect.top + window.scrollY)+ "px"); 
+        })
+      .on('mouseout', function (d, i) {
+          tooltip.transition()    
+            .duration(500)    
+            .style("opacity", 0); 
+        });
+  }
+
   function graph4_clearItems_graph() {
     var chart = graph4Svg.selectAll('.chart-graph');
     chart.selectAll(".graph4-axis").remove();
     chart.selectAll(".y-label").remove();
     chart.selectAll(".earnings").remove();
+    chart.selectAll(".dataPoint").remove();
   }
 
   // constants
@@ -599,8 +632,8 @@ function render(){
       var chart = graph4Svg.selectAll('.chart-graph');
       graph4_x_axis(chart);
       graph4_y_axis(chart);
-      graph4_path_generator(_graph4_line_generator_private,"Total Non-Farm","grey");
-      graph4_path_generator(_graph4_line_generator_nursing,"Nursing and Residential Care","salmon");
+      graph4_generator(graph4_earnings_total,"total","Total Non-Farm","grey");
+      graph4_generator(graph4_earnings_nursing,"nursing","Nursing and Residential Care","salmon");
     },
     function() {
       graph4_clearItems_graph();
