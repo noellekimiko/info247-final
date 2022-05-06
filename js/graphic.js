@@ -650,6 +650,14 @@ function render(){
       .attr("transform", `translate(${margin},0)`)
       .style("font-size","15px")
       .call(d3.axisLeft(_graph3_y));
+    chart3.append("text")
+      .attr("class", "y-label")
+      .style("font-size","20px")
+      .attr("text-anchor", "middle")
+      .attr("y", -3*margin)
+      .attr("dx", -1*graph2_verticalSize/2)
+      .attr("transform", "rotate(-90)")
+      .text("Ratio of Openings to Hires");
 
     var chart4_graph = graph4Svg.append('g')
       .classed('chart-graph', true)
