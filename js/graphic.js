@@ -41,8 +41,8 @@ function render(){
   var global_change_max = 4;
   var global_date_start = new Date(2020, 0, 1);
   var global_date_end = new Date(2022, 0, 1);
-  var data_totalNonFarm_jan_to_apr_2020 = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.247160286},{"date":"2020-03-01","change":-0.737536811},{"date":"2020-04-01","change":-14.20842974}];
-  var data_totalNonFarm = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.247160286},{"date":"2020-03-01","change":-0.737536811},{"date":"2020-04-01","change":-14.20842974},{"date":"2020-05-01","change":-12.47173433},{"date":"2020-06-01","change":-9.510412284},{"date":"2020-07-01","change":-8.598022718},{"date":"2020-08-01","change":-7.503549642},{"date":"2020-09-01","change":-6.899453092},{"date":"2020-10-01","change":-6.474153345},{"date":"2020-11-01","change":-6.255258729},{"date":"2020-12-01","change":-6.330852966},{"date":"2021-01-01","change":-5.989035549},{"date":"2021-02-01","change":-5.522323307},{"date":"2021-03-01","change":-5.059555111},{"date":"2021-04-01","change":-4.886674379},{"date":"2021-05-01","change":-4.592842869},{"date":"2021-06-01","change":-4.226703828},{"date":"2021-07-01","change":-3.773795751},{"date":"2021-08-01","change":-3.433950358},{"date":"2021-09-01","change":-3.155237695},{"date":"2021-10-01","change":-2.710217711},{"date":"2021-11-01","change":-2.284917964},{"date":"2021-12-01","change":-1.949673959},{"date":"2022-01-01","change":-1.642695625}];
+  var data_totalPrivate_jan_to_apr_2020 = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.217250124},{"date":"2020-03-01","change":-0.899152647},{"date":"2020-04-01","change":-16.03089436}];
+  var data_totalPrivate = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.217250124},{"date":"2020-03-01","change":-0.899152647},{"date":"2020-04-01","change":-16.03089436},{"date":"2020-05-01","change":-13.61485651},{"date":"2020-06-01","change":-10.12803068},{"date":"2020-07-01","change":-9.128370856},{"date":"2020-08-01","change":-8.190561603},{"date":"2020-09-01","change":-7.449127907},{"date":"2020-10-01","change":-6.831395349},{"date":"2020-11-01","change":-6.517503711},{"date":"2020-12-01","change":-6.601001979},{"date":"2021-01-01","change":-6.273967095},{"date":"2021-02-01","change":-5.738186541},{"date":"2021-03-01","change":-5.235650668},{"date":"2021-04-01","change":-5.07174666},{"date":"2021-05-01","change":-4.777183325},{"date":"2021-06-01","change":-4.384432212},{"date":"2021-07-01","change":-3.891173924},{"date":"2021-08-01","change":-3.506927264},{"date":"2021-09-01","change":-3.19071623},{"date":"2021-10-01","change":-2.654162543},{"date":"2021-11-01","change":-2.169408709},{"date":"2021-12-01","change":-1.780523256},{"date":"2022-01-01","change":-1.437252598}];
   var data_healthcareAndSocialAssistance_jan_to_apr_2020 = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.29},{"date":"2020-03-01","change":-0.35},{"date":"2020-04-01","change":-10.87}];
   var data_healthcareAndSocialAssistance = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.29},{"date":"2020-03-01","change":-0.35},{"date":"2020-04-01","change":-10.87},{"date":"2020-05-01","change":-9.06},{"date":"2020-06-01","change":-6.77},{"date":"2020-07-01","change":-5.87},{"date":"2020-08-01","change":-5.2},{"date":"2020-09-01","change":-4.69},{"date":"2020-10-01","change":-4.27},{"date":"2020-11-01","change":-3.99},{"date":"2020-12-01","change":-3.68},{"date":"2021-01-01","change":-3.98},{"date":"2021-02-01","change":-3.71},{"date":"2021-03-01","change":-3.41},{"date":"2021-04-01","change":-3.28},{"date":"2021-05-01","change":-3.21},{"date":"2021-06-01","change":-3.22},{"date":"2021-07-01","change":-3.05},{"date":"2021-08-01","change":-2.98},{"date":"2021-09-01","change":-2.98},{"date":"2021-10-01","change":-2.8},{"date":"2021-11-01","change":-2.62},{"date":"2021-12-01","change":-2.47},{"date":"2022-01-01","change":-2.39}];
   var data_ambulatory = [{"date":"2020-01-01","change":0},{"date":"2020-02-01","change":0.31},{"date":"2020-03-01","change":-0.81},{"date":"2020-04-01","change":-16.83},{"date":"2020-05-01","change":-11.77},{"date":"2020-06-01","change":-6.95},{"date":"2020-07-01","change":-5.23},{"date":"2020-08-01","change":-4.05},{"date":"2020-09-01","change":-3.15},{"date":"2020-10-01","change":-2.43},{"date":"2020-11-01","change":-1.97},{"date":"2020-12-01","change":-1.54},{"date":"2021-01-01","change":-1.62},{"date":"2021-02-01","change":-1.13},{"date":"2021-03-01","change":-0.74},{"date":"2021-04-01","change":-0.29},{"date":"2021-05-01","change":-0.1},{"date":"2021-06-01","change":0.02},{"date":"2021-07-01","change":0.41},{"date":"2021-08-01","change":0.56},{"date":"2021-09-01","change":0.99},{"date":"2021-10-01","change":1.42},{"date":"2021-11-01","change":1.69},{"date":"2021-12-01","change":1.84},{"date":"2022-01-01","change":2.03}];
@@ -119,12 +119,12 @@ function render(){
     }
   }
 
-  function graph_totalNonFarm_jan_to_apr_2020(svg,x,y,line_generator,includePoints,includeTransition) {
-    _emp_generator(svg,x,y,line_generator,data_totalNonFarm_jan_to_apr_2020,"totalNonFarm_jan_to_apr_2020","Total Non-Farm","grey",includePoints,includeTransition);
+  function graph_totalPrivate_jan_to_apr_2020(svg,x,y,line_generator,includePoints,includeTransition) {
+    _emp_generator(svg,x,y,line_generator,data_totalPrivate_jan_to_apr_2020,"totalPrivate_jan_to_apr_2020","Total Private","grey",includePoints,includeTransition);
   }
   
-  function graph_totalNonFarm(svg,x,y,line_generator,includePoints,includeTransition) {
-    _emp_generator(svg,x,y,line_generator,data_totalNonFarm,"totalNonFarm","Total","grey",includePoints,includeTransition);
+  function graph_totalPrivate(svg,x,y,line_generator,includePoints,includeTransition) {
+    _emp_generator(svg,x,y,line_generator,data_totalPrivate,"totalPrivate","Total","grey",includePoints,includeTransition);
   }
 
   function graph_healthcareAndSocialAssistance_jan_to_apr_2020(svg,x,y,line_generator,includePoints,includeTransition) {
@@ -148,14 +148,14 @@ function render(){
   }
 
   function graph_allLines(svg,x,y,line_generator,includePoints,includeTransition) {
-    graph_totalNonFarm(svg,x,y,line_generator,includePoints,includeTransition);
+    graph_totalPrivate(svg,x,y,line_generator,includePoints,includeTransition);
     graph_healthcareAndSocialAssistance(svg,x,y,line_generator,includePoints,includeTransition);
     graph_ambulatory(svg,x,y,line_generator,includePoints,includeTransition);
     graph_hospital(svg,x,y,line_generator,includePoints,includeTransition);
     graph_nursing(svg,x,y,line_generator,includePoints,includeTransition);
   }
   function graph_totalAndSector(svg,x,y,line_generator,includePoints,includeTransition) {
-    graph_totalNonFarm(svg,x,y,line_generator,includePoints,includeTransition);
+    graph_totalPrivate(svg,x,y,line_generator,includePoints,includeTransition);
     graph_healthcareAndSocialAssistance(svg,x,y,line_generator,includePoints,includeTransition);
   }
   function graph_allSubsectors(svg,x,y,line_generator,includePoints,includeTransition) {
@@ -213,22 +213,22 @@ function render(){
   var graph2Steps = [
     function () {
       graph2_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
+      graph_totalPrivate_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_totalPrivate_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
       graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
     function () {
       graph2_clearItems();
       // These are to make the animation appear for only the part after the drop
-      graph_totalNonFarm_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
+      graph_totalPrivate_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
       graph_healthcareAndSocialAssistance_jan_to_apr_2020(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, false);
       // Animated lines
-      graph_totalNonFarm(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
+      graph_totalPrivate(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
       graph_healthcareAndSocialAssistance(graph2Svg,_graph2_x, _graph2_y, _graph2_line_generator, true, true);
     },
 
@@ -255,8 +255,8 @@ function render(){
   var graph3_value_max = 3.5;
   var graph3_date_start = new Date(2020, 0, 1);
   var graph3_date_end = new Date(2021, 11, 1);
-  var graph3_data_total = [{"month":"2020-01-01","value":1.197522598},{"month":"2020-02-01","value":1.172771366},{"month":"2020-03-01","value":1.124123149},{"month":"2020-04-01","value":1.174530695},{"month":"2020-05-01","value":0.65848646},{"month":"2020-06-01","value":0.794075614},{"month":"2020-07-01","value":1.076960077},{"month":"2020-08-01","value":1.003109936},{"month":"2020-09-01","value":1.114463924},{"month":"2020-10-01","value":1.138856669},{"month":"2020-11-01","value":1.124106995},{"month":"2020-12-01","value":1.247828498},{"month":"2021-01-01","value":1.298993596},{"month":"2021-02-01","value":1.298929928},{"month":"2021-03-01","value":1.37995338},{"month":"2021-04-01","value":1.52910845},{"month":"2021-05-01","value":1.574726005},{"month":"2021-06-01","value":1.491870514},{"month":"2021-07-01","value":1.641473155},{"month":"2021-08-01","value":1.63598584},{"month":"2021-09-01","value":1.619615032},{"month":"2021-10-01","value":1.704734092},{"month":"2021-11-01","value":1.633565797},{"month":"2021-12-01","value":1.744371707}];
-  var graph3_data_healthcare = [{"month":"2020-01-01","value":1.755102041},{"month":"2020-02-01","value":1.692762186},{"month":"2020-03-01","value":1.879061372},{"month":"2020-04-01","value":1.879385965},{"month":"2020-05-01","value":0.802367942},{"month":"2020-06-01","value":1.21641791},{"month":"2020-07-01","value":1.514056225},{"month":"2020-08-01","value":1.724358974},{"month":"2020-09-01","value":1.774143302},{"month":"2020-10-01","value":2},{"month":"2020-11-01","value":1.943307087},{"month":"2020-12-01","value":1.875197472},{"month":"2021-01-01","value":2.040133779},{"month":"2021-02-01","value":2.408427877},{"month":"2021-03-01","value":2.0109375},{"month":"2021-04-01","value":2.118003026},{"month":"2021-05-01","value":2.220364742},{"month":"2021-06-01","value":2.245877061},{"month":"2021-07-01","value":2.625931446},{"month":"2021-08-01","value":2.366863905},{"month":"2021-09-01","value":2.411214953},{"month":"2021-10-01","value":2.681492109},{"month":"2021-11-01","value":2.561009818},{"month":"2021-12-01","value":2.65192582}];
+  var graph3_data_total = [{"month":"2020-01-01","value":1.128899982},{"month":"2020-02-01","value":1.104278075},{"month":"2020-03-01","value":1.079214064},{"month":"2020-04-01","value":1.06911958},{"month":"2020-05-01","value":0.612040558},{"month":"2020-06-01","value":0.749511582},{"month":"2020-07-01","value":0.988046448},{"month":"2020-08-01","value":1.033935817},{"month":"2020-09-01","value":1.036021505},{"month":"2020-10-01","value":1.066377816},{"month":"2020-11-01","value":1.103896104},{"month":"2020-12-01","value":1.172420263},{"month":"2021-01-01","value":1.215932521},{"month":"2021-02-01","value":1.250921214},{"month":"2021-03-01","value":1.313786008},{"month":"2021-04-01","value":1.441533657},{"month":"2021-05-01","value":1.516387727},{"month":"2021-06-01","value":1.489524443},{"month":"2021-07-01","value":1.597396257},{"month":"2021-08-01","value":1.628975853},{"month":"2021-09-01","value":1.573216317},{"month":"2021-10-01","value":1.664154653},{"month":"2021-11-01","value":1.575733545},{"month":"2021-12-01","value":1.706202573}];
+  var graph3_data_healthcare = [{"month":"2020-01-01","value":1.760115607},{"month":"2020-02-01","value":1.664233577},{"month":"2020-03-01","value":1.904761905},{"month":"2020-04-01","value":1.864035088},{"month":"2020-05-01","value":0.832869081},{"month":"2020-06-01","value":1.226161369},{"month":"2020-07-01","value":1.478723404},{"month":"2020-08-01","value":1.760517799},{"month":"2020-09-01","value":1.726851852},{"month":"2020-10-01","value":1.89280245},{"month":"2020-11-01","value":1.945773525},{"month":"2020-12-01","value":1.860719875},{"month":"2021-01-01","value":2.201096892},{"month":"2021-02-01","value":2.311248074},{"month":"2021-03-01","value":2.072617247},{"month":"2021-04-01","value":2.080597015},{"month":"2021-05-01","value":2.293154762},{"month":"2021-06-01","value":2.3125},{"month":"2021-07-01","value":2.585585586},{"month":"2021-08-01","value":2.412371134},{"month":"2021-09-01","value":2.456521739},{"month":"2021-10-01","value":2.690677966},{"month":"2021-11-01","value":2.53298153},{"month":"2021-12-01","value":2.647849462}];
   var graph3_width = d3.select(' #container-3 .graph').node().offsetWidth;
   var graph3_height = d3.select(' #container-3 .graph').node().offsetHeight;
   var graph3_verticalSize = graph3_height - margin * 4;
@@ -341,7 +341,7 @@ function render(){
     },
     function () {
       graph3_clearItems();
-      graph3_generator(graph3_data_total,"total","Total Non-Farm","grey");
+      graph3_generator(graph3_data_total,"total","Total Private","grey");
       graph3_generator(graph3_data_healthcare,"health","Health Care and Social Assistance","#008000");
     }
   ];
@@ -632,7 +632,7 @@ function render(){
       var chart = graph4Svg.selectAll('.chart-graph');
       graph4_x_axis(chart);
       graph4_y_axis(chart);
-      graph4_generator(graph4_earnings_total,"total","Total Non-Farm","grey");
+      graph4_generator(graph4_earnings_total,"total","Total Private","grey");
       graph4_generator(graph4_earnings_nursing,"nursing","Nursing and Residential Care","salmon");
     },
     function() {
