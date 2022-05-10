@@ -468,167 +468,143 @@ function render(){
   // constants
   const duration = 600;
   const opacityHidden = 0;
+  const opacityHalf = 0.5;
   const opacityVisible = 1;
   
   // helpers
-  function circleConst(group,idNum,r,fill,opacity) {
-    group.append("circle")
-      .classed("graph4_circle",true)
-      .attr("id", "circle"+idNum)
-      .attr("cx", 0)
-      .attr("cy", 0)
-      .attr("r", r)
-      .style("fill", fill)
-      .attr("opacity", opacity);
+  function rectConst(group,idNum,rectWidth,rectHeight,fill,fillOpacity) {
+    group.append("rect")
+      .classed("graph4_rect",true)
+      .attr("id", "rect"+idNum)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr('width', rectWidth)
+      .attr('height',rectHeight)
+      .attr("fill", fill)
+      .attr("fill-opacity", fillOpacity)
+      .attr('stroke', 'black')
+      .attr('stroke-width', 5);
   }
-  function labelConst(group,idNum,y,text,fontSize,opacity) {
+  function labelConst(group,idNum,x,y,label,opacity) {
     group.append("text")
       .classed("graph4_label",true)
       .attr("id", "label"+idNum)
-      .attr("x", 0)
+      .attr("x", x)
       .attr("y", y)
-      .attr("font-size", fontSize)
+      .attr("font-size", 22)
       .attr("font-family", "Arial")
       .style("text-anchor", "middle")
       .attr("font-weight",800)
-      .attr("fill","white")
-      .text(text)
+      .attr("fill","black")
+      .text(label)
       .attr("opacity", opacity);
-  } 
-  function textConst(group,idNum,y,text,opacity) {
+  }
+  function textConst(group,idNum,x,y,fillColor,text,opacity) {
     group.append("text")
       .classed("graph4_text",true)
       .attr("id", "text"+idNum)
-      .attr("x", 0)
+      .attr("x", x)
       .attr("y", y)
-      .attr("fill", "darkgrey")
+      .attr("fill", fillColor)
       .attr("font-size", 18)
       .attr("font-family", "Arial")
-      .style("text-anchor", "middle")
+      .style("text-anchor", "start")
       .text(text)
       .attr("opacity", opacity)
       .attr("font-weight",800);
   }
-
-  function graph4_clearItems_bubbles() {
-    var chart = graph4Svg.selectAll('.chart-bubbles');
+  function graph4_clearItems_rect() {
+    var chart = graph4Svg.selectAll('.chart-rect');
     chart.selectAll(".graph4_group").remove();
-    chart.selectAll(".graph4_circle").remove();
+    chart.selectAll(".graph4_rect").remove();
     chart.selectAll(".graph4_label").remove();
     chart.selectAll(".graph4_text").remove();
-    chart.selectAll(".graph4_img").remove();
   }
-
-  function graph4_circle(idNum,x,y,r,fill,labelY,label,textY,text,fontSize,opacity) {
-    var chart = graph4Svg.selectAll('.chart-bubbles');
+  function graph4_rect(idNum,xPer,yPer,rectWidth,rectHeight,fill,fillOpacity,labelX,labelY,label,textX,textY,text,labelTextOpacity) {
+    var chart = graph4Svg.selectAll('.chart-rect');
     var group = chart.append("g")
       .attr("id", "graph4_group_"+idNum)
       .classed("graph4_group", true)
-      .attr("transform", "translate(" + x + "," + y + ")");
+      .attr("transform", "translate(" + graph4_horizontalSize*xPer + "," + graph4_verticalSize*yPer + ")");
 
-    circleConst(group,idNum,r,fill,opacity);
-    labelConst(group,idNum,labelY,label,fontSize,opacity);
-    textConst(group,idNum,textY,text,opacity);
+    rectConst(group,idNum,rectWidth,rectHeight,fill,fillOpacity);
+    labelConst(group,idNum,labelX,labelY,label,labelTextOpacity);
+    textConst(group,idNum,textX,textY,fill,text,labelTextOpacity);
   }
 
-  function circle1(isInitial) {
-    if (isInitial){
-      graph4_circle(1,(graph4_width*0.5),(graph4_height*0.5),20,"darkred","2%","34%","10%","Nurses plan to resign by 2022",15,opacityHidden);
-    } else {
-      graph4_circle(1,(graph4_width*0.5),(graph4_height*0.1),50,"darkred","2%","34%","10%","Nurses plan to resign by 2022",35,opacityVisible);
-    }
-  }
-
-  function circle2(isInitial) {
-    if (isInitial){
-      graph4_circle(2,(graph4_width*0.2),(graph4_height*0.5),20,"grey","1.5%","44%","9%","Burnout & High Stress",15,opacityHidden);
-    } else {
-      graph4_circle(2,(graph4_width*0.25),(graph4_height*0.35),40,"grey","1.5%","44%","9%","Burnout & High Stress",30,opacityVisible);
-    }
-  }
-
-  function circle3(isInitial) {
-    if (isInitial){
-      graph4_circle(3,(graph4_width*0.8),(graph4_height*0.5),20,"grey","1.5%","27%","9%","Benefits & Pay",15,opacityHidden);
-    } else {
-      graph4_circle(3,(graph4_width*0.75),(graph4_height*0.35),40,"grey","1.5%","27%","9%","Benefits & Pay",30,opacityVisible);
-    }
-  }
-
-  function circle4(isInitial) {
-    if (isInitial){
-      graph4_circle(4,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","66%","7%","Not appreciated by community",15,opacityHidden);
-    } else {
-      graph4_circle(4,(graph4_width*0.25),(graph4_height*0.6),30,"grey","1%","66%","7%","Not appreciated by community",20,opacityVisible);
-    }
-  }
-
-  function circle5(isInitial) {
-    if (isInitial){
-      graph4_circle(5,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","64%","7%","Mental & Physical Abuse",15,opacityHidden);
-    } else {
-      graph4_circle(5,(graph4_width*0.25),(graph4_height*0.75),30,"grey","1%","64%","7%","Mental & Physical Abuse",20,opacityVisible);
-    }
-  }
-
-  function circle6(isInitial) {
-    if (isInitial){
-      graph4_circle(6,(graph4_width*0.1),(graph4_height*0.8),20,"grey","1%","32%","7%","Workplace Discrimination/Racism",15,opacityHidden);
-    } else {
-      graph4_circle(6,(graph4_width*0.25),(graph4_height*0.9),30,"grey","1%","32%","7%","Workplace Discrimination/Racism",20,opacityVisible);
-    }
-  }
-
-  function circle7(isInitial) {
-    if (isInitial){
-      graph4_circle(7,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","58%","7%","Want to move for a higher pay",15,opacityHidden);
-    } else {
-      graph4_circle(7,(graph4_width*0.75),(graph4_height*0.6),30,"grey","1%","58%","7%","Want to move for a higher pay",20,opacityVisible);
-    }
-  }
-
-  function circle8(isInitial) {
-    if (isInitial){
-      graph4_circle(8,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for an improved schedule",15,opacityHidden);
-    } else {
-      graph4_circle(8,(graph4_width*0.75),(graph4_height*0.75),30,"grey","1%","31%","7%","Want to move for an improved schedule",20,opacityVisible);
-    }
-  }
-
-  function circle9(isInitial) {
-    if (isInitial){
-      graph4_circle(9,(graph4_width*0.9),(graph4_height*0.8),20,"grey","1%","31%","7%","Want to move for better career opportunities",15,opacityHidden);
-    } else {
-      graph4_circle(9,(graph4_width*0.75),(graph4_height*0.9),30,"grey","1%","31%","7%","Want to move for better career opportunities",20,opacityVisible);
-    }
-  }
-
-  function circleTransition(idNum,r,fontSize,xTranslate,yTranslate){
-    d3.select("#circle"+idNum).transition()
-        .duration(duration)
-        .attr("opacity", opacityVisible)
-      .transition() 
-        .duration(duration)         
-        .attr("r", r);
-    d3.select("#label"+idNum).transition()
-        .duration(duration)
-        .attr("opacity", opacityVisible)
-      .transition()
-        .duration(duration)
-        .attr("font-size", fontSize);
-    d3.select("#text"+idNum).transition()
-        .delay(duration)
-        .duration(duration)
-        .attr("opacity", opacityVisible);
+  function rectGroupTranslate(idNum,xTranslate,yTranslate,delayMult) {
     d3.select("#graph4_group_"+idNum).transition()
-        .delay(duration)
-        .attr("transform", "translate(" + (graph4_width*xTranslate) + "," + (graph4_height*yTranslate) + ")");
+        .delay(duration*delayMult)
+        .attr("transform", "translate(" + (graph4_horizontalSize*xTranslate) + "," + (graph4_verticalSize*yTranslate) + ")");
+  }
+
+  function rectGroupTransition(idNum,widthPer,xTranslate,yTranslate,delayMultStart) {
+    d3.select("#rect"+idNum).transition() 
+      .delay(duration*delayMultStart)
+      .duration(duration)
+      .attr("opacity", opacityVisible)
+      .attr("fill-opacity", opacityHalf)
+      .attr('width', graph4_horizontalSize*widthPer);
+    d3.select("#graph4_group_"+idNum).transition()
+        .delay(duration*(delayMultStart+1))
+        .attr("transform", "translate(" + (graph4_horizontalSize*xTranslate) + "," + (graph4_verticalSize*yTranslate) + ")");
+    d3.select("#label"+idNum).transition() 
+      .delay(duration*(delayMultStart+1.5))
+      .duration(duration)
+      .attr("opacity", opacityVisible);
+    d3.select("#text"+idNum).transition()
+      .delay(duration*(delayMultStart+1.5))
+      .duration(duration)         
+      .attr("opacity", opacityVisible);
+  }
+
+  function rect0(isInitial) {
+    var chart = graph4Svg.selectAll('.chart-rect');
+
+    if (isInitial){
+      var group = chart.append("g")
+        .attr("id", "graph4_group_"+0)
+        .classed("graph4_group", true)
+        .attr("transform", "translate(" + graph4_horizontalSize*0 + "," + graph4_verticalSize*0.5 + ")");
+      rectConst(group,0,graph4_horizontalSize,40,"none");
+    } else {
+      var group = chart.append("g")
+        .attr("id", "graph4_group_"+0)
+        .classed("graph4_group", true)
+        .attr("transform", "translate(" + graph4_horizontalSize*0 + "," + graph4_verticalSize*0.4 + ")");
+      rectConst(group,0,graph4_horizontalSize,40,"none");
+
+    }
+  }
+
+  function rect1(isInitial) {
+    if (isInitial){
+      graph4_rect(1,0,0.5,0,40,"salmon",opacityHalf,"5%","4%","34%","0","-5%","NURSES PLAN TO RESIGN BY 2022",opacityHidden);
+    } else {
+      graph4_rect(1,0,0.4,graph4_horizontalSize*0.34,40,"salmon",opacityHalf,"5%","4%","34%","0","-5%","NURSES PLAN TO RESIGN BY 2022",opacityVisible);
+    }
+  }
+
+  function rect2(isInitial) {
+    if (isInitial){
+      graph4_rect(2,0,0.4,0,40,"salmon",opacityHalf,"5%","4%","44%","0","-3%","Burnout & High Stress",opacityHidden);
+    } else {
+      graph4_rect(2,0,0.6,graph4_horizontalSize*0.34*0.44,40,"salmon",opacityHalf,"5%","4%","44%","0","-3%","Burnout & High Stress",opacityVisible);
+    }
+  }
+
+  function rect3(isInitial) {
+    if (isInitial){
+      graph4_rect(3,0,0.4,0,40,"salmon",opacityHalf,"5%","4%","27%","0","-3%","Pay & Benefits",opacityHidden);
+    } else {
+      graph4_rect(3,0.5,0.6,graph4_horizontalSize*0.34*0.27,40,"salmon",opacityHalf,"5%","4%","27%","0","-3%","Pay & Benefits",opacityVisible);
+    }
   }
 
   var graph4Steps = [
     function() {
       graph4_clearItems_graph();
-      graph4_clearItems_bubbles();
+      graph4_clearItems_rect();
       var chart = graph4Svg.selectAll('.chart-graph');
       graph4_x_axis(chart);
       graph4_y_axis(chart);
@@ -637,65 +613,37 @@ function render(){
     },
     function() {
       graph4_clearItems_graph();
-      graph4_clearItems_bubbles();
-      circle1(true);
-
-      //transition circle 1
-      d3.select("#circle1").transition() 
-        .duration(duration)         
-        .attr("r", 50)
-        .attr("opacity", opacityVisible);
-      d3.select("#label1").transition()
-        .duration(duration)
-        .attr("y", "2%")
-        .attr("font-size", 35)
-        .attr("opacity", opacityVisible);
-      d3.select("#text1").transition()
-        .duration(duration)
-        .attr("opacity", opacityVisible);
-      d3.select("#graph4_group_1").transition()
-          .delay(duration)
-          .attr("transform", "translate(" + (graph4_width*0.5) + "," + (graph4_height*0.1) + ")");
+      graph4_clearItems_rect();
+      rect0(true);
+      rect1(true);
+      rectGroupTransition(1,0.34,0,0.5,0.25);
     },
 
     function() {
-      graph4_clearItems_bubbles();
-      circle1(false);
-      circle2(true);
-      circle3(true);
-
-      circleTransition(2,40,30,0.25,0.35);
-      circleTransition(3,40,30,0.75,0.35);
+      graph4_clearItems_rect();
+      rect0(false);
+      rect1(false);
+      rectGroupTranslate(0,0,0.4,0.5);
+      rectGroupTranslate(1,0,0.4,0.5);
+      rect2(true);
+      rectGroupTransition(2,0.34*0.44,0,0.6,1);
+      rect3(true);
+      rectGroupTransition(3,0.34*0.27,0.5,0.6,3);
     },
 
     function() {
-      graph4_clearItems_bubbles();
-      circle1(false);
-      circle2(false);
-      circle3(false);
-      circle4(true);
-      circle5(true);
-      circle6(true);
-
-      circleTransition(4,30,20,0.25,0.6);
-      circleTransition(5,30,20,0.25,0.75);
-      circleTransition(6,30,20,0.25,0.9);
+      graph4_clearItems_rect();
+      rect0(false);
+      rect1(false);
+      rect2(false);
+      rect3(false);
     },
     function() {
-      graph4_clearItems_bubbles();
-      circle1(false);
-      circle2(false);
-      circle3(false);
-      circle4(false);
-      circle5(false);
-      circle6(false);
-      circle7(true);
-      circle8(true);
-      circle9(true);
-
-      circleTransition(7,30,20,0.75,0.6);
-      circleTransition(8,30,20,0.75,0.75);
-      circleTransition(9,30,20,0.75,0.9);
+      graph4_clearItems_rect();
+      rect0(false);
+      rect1(false);
+      rect2(false);
+      rect3(false);
     }
   ];
 
@@ -710,8 +658,6 @@ function render(){
       }        
     });
   
-  
-
   function setupCharts() { 
     var chart2 = graph2Svg.append('g')
       .classed('chart', true)
@@ -761,8 +707,8 @@ function render(){
       .classed('chart-graph', true)
       .attr('transform', 'translate(' + margin*5 + ','+margin+')')
       .attr('pointer-events', 'all');
-    var chart4_bubbles = graph4Svg.append('g')
-      .classed('chart-bubbles', true)
+    var chart4_rect = graph4Svg.append('g')
+      .classed('chart-rect', true)
       .attr('transform', 'translate(' + margin + ',0)')
       .attr('pointer-events', 'all');
   }
