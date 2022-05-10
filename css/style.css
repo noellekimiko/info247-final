@@ -79,7 +79,34 @@ span.nursing{
 .footer{
   background-color: #000;
   color: #fff;
-  padding: 10px 10px 250px;
+  padding: 10px 10px;
+}
+
+.footer a{
+  color: #fff;
+  text-decoration-color: #fff;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: space-around;
+}
+
+.flex-item-left {
+  flex: 25%;
+}
+
+.flex-item-right {
+  flex: 70%;
+  font-size: 16px;
+}
+
+.flex-item-right ul {
+  padding-left: 2em;
 }
 
 /* Container 1 specific tyles */
@@ -138,5 +165,9 @@ p.subhead{
     padding: 10px;
     border-top: 1px solid;
     border-bottom: 1px solid;
+  }
+
+  .flex-item-right, .flex-item-left {
+    flex: 100%;
   }
 }
