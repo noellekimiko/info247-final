@@ -36,6 +36,169 @@ function render(){
       return function(t) { return i(t) };
   }
 
+  var graph1_width = d3.select(' #container-1 .graph').node().offsetWidth;
+  var graph1_height = d3.select(' #container-1 .graph').node().offsetHeight;
+  var graph1_verticalSize = graph1_height - margin * 2;
+  var graph1_horizontalSize = graph1_width - (margin * 3);
+  var graph1Svg = d3.select('#container-1 .graph').html('')
+    .append('svg')
+      .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
+  var graph1Canvas = d3.select('#container-1 .graph')
+    .append('canvas')
+      .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
+
+
+  var gs1 = d3.graphScroll()
+      .container(d3.select('#container-1'))
+      .graph(d3.selectAll('#container-1 .graph'))
+      .eventId('uniqueId1')  // namespace for scroll and resize events
+      .sections(d3.selectAll('#container-1 .sections > div'))
+      .on('active', function(i){
+        if(i <= graph1Steps.length-1) {
+          graph1Steps[i]();
+        }        
+      });
+
+  var graph1Steps = [
+    function() {
+      const formatNumber = d3.format(',.0f');
+      const format = d => `${formatNumber(d)} Schools`;
+      let color = d3.scaleOrdinal()
+            .range(["salmon"]);
+
+      const sankey = d3.sankey()
+        .nodeWidth(30)
+        .nodePadding(20)
+        .size([graph1_horizontalSize, graph1_verticalSize/2]);
+
+      const path = sankey.link();
+
+      const freqCounter = 1;
+
+      d3.json('json/nursing.json', (nursing) => {
+        sankey
+          .nodes(nursing.nodes)
+          .links(nursing.links)
+          .layout(32);
+
+        const link = graph1Svg.append('g').selectAll('.link')
+          .data(nursing.links)
+          .enter().append('path')
+            .attr('class', 'link')
+            .attr('d', path)
+            .style('stroke-width', d => Math.max(1, d.dy))
+            .sort((a, b) => b.dy - a.dy);
+
+        link.append('title')
+          .text(d => `${d.source.name} → ${d.target.name}\n${format(d.value)}`);
+
+        const node = graph1Svg.append('g').selectAll('.node')
+          .data(nursing.nodes)
+          .enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', d => `translate(${d.x},${d.y})`)
+            .call(d3.drag()
+              .subject(d => d)
+              .on('start', function () { this.parentNode.appendChild(this); })
+              .on('drag', dragmove));
+
+        node.append('rect')
+          .attr('height', d => d.dy)
+          .attr('width', sankey.nodeWidth())
+          .style('fill', (d) => {
+            d.color = color(d.name.replace(/ .*/, ''));
+            return d.color;
+          })
+          .style('stroke', 'none')
+          .append('title')
+            .text(d => `${d.name}\n${format(d.value)}`);
+
+        node.append('text')
+          .attr('x', -6)
+          .attr('y', d => d.dy / 2)
+          .attr('dy', '.35em')
+          .attr('text-anchor', 'end')
+          .attr('transform', null)
+          .text(d => d.name)
+          .filter(d => d.x < graph1_horizontalSize / 2)
+            .attr('x', 6 + sankey.nodeWidth())
+            .attr('text-anchor', 'start');
+
+        function dragmove(d) {
+          d3.select(this).attr('transform', `translate(${d.x},${d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))})`);
+          sankey.relayout();
+          link.attr('d', path);
+        }
+
+        const linkExtent = d3.extent(nursing.links, d => d.value);
+        const frequencyScale = d3.scaleLinear().domain(linkExtent).range([.10, 1]);
+        const particleSize = d3.scaleLinear().domain(linkExtent).range([1, 5]);
+
+
+        nursing.links.forEach((link) => {
+          link.freq = frequencyScale(link.value);
+          link.particleSize = 2;
+          link.particleColor = d3.scaleLinear().domain([0, 1])
+          .range([link.source.color, link.target.color]);
+        });
+
+        const t = d3.timer(tick, 1000);
+        let particles = [];
+
+        function tick(elapsed, time) {
+          particles = particles.filter(d => d.current < d.path.getTotalLength());
+
+          d3.selectAll('path.link')
+          .each(
+            function (d) {
+              // if (d.freq < 1) {
+              for (let x = 0; x < 2; x += 1) {
+                const offset = (Math.random() - 0.5) * (d.dy - 4);
+                if (Math.random() < d.freq) {
+                  const length = this.getTotalLength();
+                  particles.push({ link: d, time: elapsed, offset, path: this, length, animateTime: length, speed: 0.5 + (Math.random()) });
+                }
+              }
+              // }
+              /*    
+                  else {
+                    for (var x = 0; x<d.freq; x++) {
+                      var offset = (Math.random() - .5) * d.dy;
+                      particles.push({link: d, time: elapsed, offset: offset, path: this})
+                    }
+                  } 
+              */
+            });
+
+          particleEdgeCanvasPath(elapsed);
+        }
+
+        function particleEdgeCanvasPath(elapsed) {
+          const context = graph1Canvas.node().getContext('2d');
+
+          context.clearRect(0, 0, 1000, 1000);
+
+          context.fillStyle = 'LightGray';
+          context.lineWidth = '1px';
+          for (const x in particles) {
+            if ({}.hasOwnProperty.call(particles, x)) {
+              const currentTime = elapsed - particles[x].time;
+              // var currentPercent = currentTime / 1000 * particles[x].path.getTotalLength();
+              particles[x].current = currentTime * 0.10 * particles[x].speed;
+              const currentPos = particles[x].path.getPointAtLength(particles[x].current);
+              context.beginPath();
+              context.fillStyle = particles[x].link.particleColor(0);
+              context.arc(currentPos.x, currentPos.y + particles[x].offset, particles[x].link.particleSize, 0, 2 * Math.PI);
+              context.fill();
+            }
+          }
+        }
+      });
+    },
+    function () {
+    }
+  ];
+
   // Reusable employment trends
   var global_change_min = -18;
   var global_change_max = 4;
@@ -659,6 +822,10 @@ function render(){
     });
   
   function setupCharts() { 
+    var chart1 = graph1Svg.append('g')
+      .classed('chart', true)
+      .attr('transform', 'translate(' + margin + ','+margin+')')
+      .attr('pointer-events', 'all');
     var chart2 = graph2Svg.append('g')
       .classed('chart', true)
       .attr('transform', 'translate(' + margin*5 + ','+margin+')')

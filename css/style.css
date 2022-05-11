@@ -123,6 +123,37 @@ p.subhead{
   text-align: center;
   font-family: "EB Garamond"; 
   font-size:  18px; 
+  padding-bottom: 2em;
+}
+#container-1 svg {
+  position: absolute;
+  padding-top: 25%;
+}
+
+#container-1 canvas {
+  position: absolute;
+  padding-top: 25%;
+}
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+  font-size: 14px;
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .15;
+}
+
+.link:hover {
+  stroke-opacity: .25;
 }
 
 #container-1 .graph{
