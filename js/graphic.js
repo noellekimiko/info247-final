@@ -499,9 +499,6 @@ function render(){
   }
 
   var graph3Steps = [
-    function() {
-      graph3_clearItems();
-    },
     function () {
       graph3_clearItems();
       graph3_generator(graph3_data_total,"total","Total Private","grey");
