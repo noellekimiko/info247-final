@@ -161,13 +161,6 @@ p.subhead{
   margin-left: 40%;
 }
 
-#container-1 .graph img {
-  max-width: 100%;
-  max-height: 100vh;
-  margin: auto;
-  display: block;
-}
-
 @media (max-width: 925px){
   body {
       width: 750px;
