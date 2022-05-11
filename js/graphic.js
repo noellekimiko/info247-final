@@ -817,6 +817,105 @@ function render(){
         graph4Steps[i]();
       }        
     });
+
+  // Graph 6
+  var graph6_width = d3.select('#container-6 .graph').node().offsetWidth;
+  var graph6_height = (d3.select('#container-6 .graph').node().offsetHeight);
+  var graph6_verticalSize = graph6_height - margin * 2;
+  var graph6_horizontalSize = graph6_width - margin * 2;
+
+  function graph6_textbox(idNum,text,display,visibility,opacity) {
+    var graph = d3.selectAll('#container-6 .graph');
+    graph.append("div")
+      .attr("id", "graph6-textbox-"+idNum)
+      .attr("class", "graph6-textbox")
+      .style("display", display)
+      .style("visibility", visibility)
+      .style("opacity", opacity)
+      .text(text);
+  }
+
+  function graph6_textbox_transition(idNum,delayMult) {
+    d3.select("#graph6-textbox-"+idNum).transition()
+      .delay(duration*delayMult)
+      .duration(duration)
+      .style("display", "block")
+      .style("visibility", "visible")
+      .style("opacity", opacityVisible);
+  }
+
+  function bidenAgenda1(isInitial) {
+    if (isInitial) {
+      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement "...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"none","hidden",opacityHidden);
+    } else {
+      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement "...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"block","visible",opacityVisible);
+    }
+  }
+  function bidenAgenda2(isInitial) {
+    if (isInitial) {
+      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable "...strengthen and diversify the nursing home workforce."',"none","hidden",opacityHidden);
+    } else {
+      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable "...strengthen and diversify the nursing home workforce."',"block","visible",opacityVisible);
+    }
+  }
+  function bidenAgenda3(isInitial) {
+    if (isInitial) {
+      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability "...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"none","hidden",opacityHidden);
+    } else {
+      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability "...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"block","visible",opacityVisible);
+    }
+  }
+  function bidenAgenda4(isInitial) {
+    if (isInitial) {
+      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign "...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"none","hidden",opacityHidden);
+    } else {
+      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign "...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"block","visible",opacityVisible);
+    }
+  }
+
+  function graph6_clearItems() {
+    var graph = d3.selectAll('#container-6 .graph');
+    graph.selectAll(".graph6-textbox").remove();
+  }
+
+  var graph6Steps = [
+    function() {
+      graph6_clearItems();
+      bidenAgenda1(true);
+      graph6_textbox_transition(1,2);
+      bidenAgenda2(true);
+      graph6_textbox_transition(2,3);
+      bidenAgenda3(true);
+      graph6_textbox_transition(3,4);
+      bidenAgenda4(true);
+      graph6_textbox_transition(4,5);
+    },
+    function() {
+      graph6_clearItems();
+      bidenAgenda1(false);
+      bidenAgenda2(false);
+      bidenAgenda3(false);
+      bidenAgenda4(false);
+    },
+    function() {
+      graph6_clearItems();
+      bidenAgenda1(false);
+      bidenAgenda2(false);
+      bidenAgenda3(false);
+      bidenAgenda4(false);
+    }
+  ];
+
+  var gs6 = d3.graphScroll()
+    .container(d3.select('#container-6'))
+    .graph(d3.selectAll('#container-6 .graph'))
+    .eventId('uniqueId6')  // namespace for scroll and resize events
+    .sections(d3.selectAll('#container-6 .sections > div'))
+    .on('active', function(i){
+      if(i <= graph6Steps.length-1) {
+        graph6Steps[i]();
+      }        
+    });
   
   function setupCharts() { 
     var chart1 = graph1Svg.append('g')
