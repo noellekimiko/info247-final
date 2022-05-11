@@ -20,7 +20,9 @@ function render(){
     .style("background", "white")
     .style("border", "1px solid black")
     .style("border-radius", "1px")
-    .style("pointer-events", "none");
+    .style("pointer-events", "none")
+    .style("display", "none")
+    .style("visibility", "hidden");
   
   //code for line animation borrowed from Pablo Gutierrez (https://observablehq.com/@blosky/animated-line-chart)
   function transition(path, strokeColor) {
@@ -258,7 +260,9 @@ function render(){
           var rect = this.getBoundingClientRect();
           tooltip.transition()    
             .duration(200)  
-            .style("opacity", .9);  
+            .style("opacity", .9)
+            .style("display","block")
+            .style("visibility","visible");  
           tooltip.html(tooltipText) 
             .style("left", (rect.left + 5 + window.scrollX) + "px")
             .style("top", (rect.top + window.scrollY)+ "px"); 
@@ -266,7 +270,9 @@ function render(){
       .on('mouseout', function (d, i) {
           tooltip.transition()    
             .duration(500)    
-            .style("opacity", 0); 
+            .style("opacity", 0)
+            .style("display","none")
+            .style("visibility","hidden"); 
         });
   }
 
@@ -486,7 +492,10 @@ function render(){
           var rect = this.getBoundingClientRect();
           tooltip.transition()    
             .duration(200)  
-            .style("opacity", .9);  
+            .style("opacity", .9)
+            .style("display","block")
+            .style("visibility","visible")
+;  
           tooltip.html(tooltipText) 
             .style("left", (rect.left + 5 + window.scrollX) + "px")
             .style("top", (rect.top + window.scrollY)+ "px"); 
@@ -494,7 +503,9 @@ function render(){
       .on('mouseout', function (d, i) {
           tooltip.transition()    
             .duration(500)    
-            .style("opacity", 0); 
+            .style("opacity", 0)
+            .style("display","none")
+            .style("visibility","hidden"); 
         });
   }
 
@@ -605,7 +616,9 @@ function render(){
           var rect = this.getBoundingClientRect();
           tooltip.transition()    
             .duration(200)  
-            .style("opacity", .9);  
+            .style("opacity", .9)
+            .style("display","block")
+            .style("visibility","visible");  
           tooltip.html(tooltipText) 
             .style("left", (rect.left + 5 + window.scrollX) + "px")
             .style("top", (rect.top + window.scrollY)+ "px"); 
@@ -613,7 +626,9 @@ function render(){
       .on('mouseout', function (d, i) {
           tooltip.transition()    
             .duration(500)    
-            .style("opacity", 0); 
+            .style("opacity", 0)
+            .style("display","none")
+            .style("visibility","hidden"); 
         });
   }
 
