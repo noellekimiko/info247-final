@@ -48,8 +48,7 @@ function render(){
   var graph1Canvas = d3.select('#container-1 .graph')
     .append('canvas')
       .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
-
-
+  
   var gs1 = d3.graphScroll()
       .container(d3.select('#container-1'))
       .graph(d3.selectAll('#container-1 .graph'))
@@ -61,8 +60,14 @@ function render(){
         }        
       });
 
+  function graph1_clearItems() {
+    graph1Svg.selectAll(".node").remove();
+    graph1Svg.selectAll(".link").remove();
+  }
+
   var graph1Steps = [
     function() {
+      graph1_clearItems();
       const formatNumber = d3.format(',.0f');
       const format = d => `${formatNumber(d)} Schools`;
       let color = d3.scaleOrdinal()
