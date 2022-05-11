@@ -46,6 +46,14 @@ h1{
   font-weight: 700;
 }
 
+p {
+  padding-bottom: 2em;
+}
+
+ul {
+  padding-left: 1em;
+}
+
 .graph{
   width: 70%;
   height: 100vh;
@@ -123,7 +131,6 @@ p.subhead{
   text-align: center;
   font-family: "EB Garamond"; 
   font-size:  18px; 
-  padding-bottom: 2em;
 }
 #container-1 svg {
   position: absolute;
@@ -159,6 +166,10 @@ p.subhead{
 #container-1 .graph{
   width: 60%;
   margin-left: 40%;
+}
+
+#container-5, #container-7{
+  padding: 2em 1em;
 }
 
 @media (max-width: 925px){

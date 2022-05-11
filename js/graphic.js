@@ -789,21 +789,6 @@ function render(){
       rectGroupTransition(2,0.34*0.44,0,0.6,1);
       rect3(true);
       rectGroupTransition(3,0.34*0.27,0.5,0.6,3);
-    },
-
-    function() {
-      graph4_clearItems_rect();
-      rect0(false);
-      rect1(false);
-      rect2(false);
-      rect3(false);
-    },
-    function() {
-      graph4_clearItems_rect();
-      rect0(false);
-      rect1(false);
-      rect2(false);
-      rect3(false);
     }
   ];
 
