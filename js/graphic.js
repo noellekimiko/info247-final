@@ -824,15 +824,22 @@ function render(){
   var graph6_verticalSize = graph6_height - margin * 2;
   var graph6_horizontalSize = graph6_width - margin * 2;
 
-  function graph6_textbox(idNum,text,display,visibility,opacity) {
+  function graph6_textbox(idNum,titleText,detailText,display,visibility,opacity) {
     var graph = d3.selectAll('#container-6 .graph');
-    graph.append("div")
+    var entry = graph.append("div")
       .attr("id", "graph6-textbox-"+idNum)
       .attr("class", "graph6-textbox")
       .style("display", display)
       .style("visibility", visibility)
-      .style("opacity", opacity)
-      .text(text);
+      .style("opacity", opacity);
+
+    entry.append("p")
+      .classed("graph4_text_title",true)
+      .text(titleText);
+
+    entry.append("p")
+      .classed("graph4_text_detail",true)
+      .text(detailText);
   }
 
   function graph6_textbox_transition(idNum,delayMult) {
@@ -846,30 +853,30 @@ function render(){
 
   function bidenAgenda1(isInitial) {
     if (isInitial) {
-      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement "...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"none","hidden",opacityHidden);
+      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement','"...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"none","hidden",opacityHidden);
     } else {
-      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement "...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"block","visible",opacityVisible);
+      graph6_textbox(1,'Establish a Minimum Nursing Home Staffing Requirement','"...ensures that all nursing home residents are provided safe, quality care, and that workers have the support they need to provide high-quality care."',"block","visible",opacityVisible);
     }
   }
   function bidenAgenda2(isInitial) {
     if (isInitial) {
-      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable "...strengthen and diversify the nursing home workforce."',"none","hidden",opacityHidden);
+      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable','"...strengthen and diversify the nursing home workforce."',"none","hidden",opacityHidden);
     } else {
-      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable "...strengthen and diversify the nursing home workforce."',"block","visible",opacityVisible);
+      graph6_textbox(2,'Ensure Nurse Aide Training is Affordable','"...strengthen and diversify the nursing home workforce."',"block","visible",opacityVisible);
     }
   }
   function bidenAgenda3(isInitial) {
     if (isInitial) {
-      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability "...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"none","hidden",opacityHidden);
+      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability','"...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"none","hidden",opacityHidden);
     } else {
-      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability "...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"block","visible",opacityVisible);
+      graph6_textbox(3,'Support State Efforts to Improve Staffing and Workforce Sustainability','"...assist and encourage States requesting to tie Medicaid payments to clinical staff wages and benefits"',"block","visible",opacityVisible);
     }
   }
   function bidenAgenda4(isInitial) {
     if (isInitial) {
-      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign "...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"none","hidden",opacityHidden);
+      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign','"...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"none","hidden",opacityHidden);
     } else {
-      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign "...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"block","visible",opacityVisible);
+      graph6_textbox(4,'Launch National Nursing Career Pathways Campaign','"...recruit, train, retain, and transition workers into long-term care careers, with pathways into health-care careers"',"block","visible",opacityVisible);
     }
   }
 

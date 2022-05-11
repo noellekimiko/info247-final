@@ -190,10 +190,18 @@ p.subhead{
 }
 
 .graph6-textbox {
-  width: 50%;
-  font-size: 16px;
+  width: 75%;
   border: 1px solid;
   padding: 1em;
+}
+.graph6-textbox .graph4_text_title{
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 0.5em;
+}
+.graph6-textbox .graph4_text_detail{
+  font-size: 20px;
+  padding-bottom: 0;
 }
 
 @media (max-width: 925px){
