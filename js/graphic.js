@@ -668,7 +668,7 @@ function render(){
       .attr("y", y)
       .attr("font-size", 22)
       .attr("font-family", "Arial")
-      .style("text-anchor", "middle")
+      .style("text-anchor", "start")
       .attr("font-weight",800)
       .attr("fill","black")
       .text(label)
@@ -754,25 +754,25 @@ function render(){
 
   function rect1(isInitial) {
     if (isInitial){
-      graph4_rect(1,0,0.5,0,40,"salmon",opacityHalf,"5%","4%","34%","0","-5%","NURSES PLAN TO RESIGN BY 2022",opacityHidden);
+      graph4_rect(1,0,0.5,0,40,"salmon",opacityHalf,"10px","30px","34%","0","-20px","NURSES PLAN TO RESIGN BY 2022",opacityHidden);
     } else {
-      graph4_rect(1,0,0.4,graph4_horizontalSize*0.34,40,"salmon",opacityHalf,"5%","4%","34%","0","-5%","NURSES PLAN TO RESIGN BY 2022",opacityVisible);
+      graph4_rect(1,0,0.4,graph4_horizontalSize*0.34,40,"salmon",opacityHalf,"10px","30px","34%","0","-20px","NURSES PLAN TO RESIGN BY 2022",opacityVisible);
     }
   }
 
   function rect2(isInitial) {
     if (isInitial){
-      graph4_rect(2,0,0.4,0,40,"salmon",opacityHalf,"5%","4%","44%","0","-3%","Burnout & High Stress",opacityHidden);
+      graph4_rect(2,0,0.4,0,40,"salmon",opacityHalf,"10px","30px","44%","0","-20px","Burnout & High Stress",opacityHidden);
     } else {
-      graph4_rect(2,0,0.6,graph4_horizontalSize*0.34*0.44,40,"salmon",opacityHalf,"5%","4%","44%","0","-3%","Burnout & High Stress",opacityVisible);
+      graph4_rect(2,0,0.6,graph4_horizontalSize*0.34*0.44,40,"salmon",opacityHalf,"10px","30px","44%","0","-20px","Burnout & High Stress",opacityVisible);
     }
   }
 
   function rect3(isInitial) {
     if (isInitial){
-      graph4_rect(3,0,0.4,0,40,"salmon",opacityHalf,"5%","4%","27%","0","-3%","Pay & Benefits",opacityHidden);
+      graph4_rect(3,0,0.4,0,40,"salmon",opacityHalf,"10px","30px","27%","0","-20px","Pay & Benefits",opacityHidden);
     } else {
-      graph4_rect(3,0.5,0.6,graph4_horizontalSize*0.34*0.27,40,"salmon",opacityHalf,"5%","4%","27%","0","-3%","Pay & Benefits",opacityVisible);
+      graph4_rect(3,0.5,0.6,graph4_horizontalSize*0.34*0.27,40,"salmon",opacityHalf,"10px","30px","27%","0","-20px","Pay & Benefits",opacityVisible);
     }
   }
 
