@@ -45,9 +45,6 @@ function render(){
   var graph1Svg = d3.select('#container-1 .graph').html('')
     .append('svg')
       .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
-  var graph1Canvas = d3.select('#container-1 .graph')
-    .append('canvas')
-      .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
   
   var gs1 = d3.graphScroll()
       .container(d3.select('#container-1'))
@@ -63,11 +60,15 @@ function render(){
   function graph1_clearItems() {
     graph1Svg.selectAll(".node").remove();
     graph1Svg.selectAll(".link").remove();
+    d3.select('#container-1').selectAll("canvas").remove();
   }
 
   var graph1Steps = [
     function() {
       graph1_clearItems();
+      var graph1Canvas = d3.select('#container-1 .graph')
+        .append('canvas')
+          .attrs({width: graph1_horizontalSize, height: graph1_verticalSize});
       const formatNumber = d3.format(',.0f');
       const format = d => `${formatNumber(d)} Schools`;
       let color = d3.scaleOrdinal()
@@ -166,15 +167,6 @@ function render(){
                   particles.push({ link: d, time: elapsed, offset, path: this, length, animateTime: length, speed: 0.5 + (Math.random()) });
                 }
               }
-              // }
-              /*    
-                  else {
-                    for (var x = 0; x<d.freq; x++) {
-                      var offset = (Math.random() - .5) * d.dy;
-                      particles.push({link: d, time: elapsed, offset: offset, path: this})
-                    }
-                  } 
-              */
             });
 
           particleEdgeCanvasPath(elapsed);
